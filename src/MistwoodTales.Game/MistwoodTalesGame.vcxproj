@@ -171,7 +171,6 @@
     <ClCompile Include="MoveableEntity.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Core.cpp" />
-    <ClCompile Include="newtest.c" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="World.cpp" />
