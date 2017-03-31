@@ -18,97 +18,38 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="addch.c" />
-    <ClCompile Include="addchstr.c" />
-    <ClCompile Include="addstr.c" />
-    <ClCompile Include="attr.c" />
-    <ClCompile Include="beep.c" />
-    <ClCompile Include="bkgd.c" />
-    <ClCompile Include="border.c" />
-    <ClCompile Include="clear.c" />
-    <ClCompile Include="color.c" />
-    <ClCompile Include="debug.c" />
-    <ClCompile Include="delch.c" />
-    <ClCompile Include="deleteln.c" />
-    <ClCompile Include="deprec.c" />
-    <ClCompile Include="getch.c" />
-    <ClCompile Include="getstr.c" />
-    <ClCompile Include="getyx.c" />
-    <ClCompile Include="inch.c" />
-    <ClCompile Include="inchstr.c" />
-    <ClCompile Include="initscr.c" />
-    <ClCompile Include="inopts.c" />
-    <ClCompile Include="insch.c" />
-    <ClCompile Include="insstr.c" />
-    <ClCompile Include="instr.c" />
-    <ClCompile Include="kernel.c" />
-    <ClCompile Include="keyname.c" />
-    <ClCompile Include="mouse.c" />
-    <ClCompile Include="move.c" />
-    <ClCompile Include="outopts.c" />
-    <ClCompile Include="overlay.c" />
-    <ClCompile Include="pad.c" />
-    <ClCompile Include="panel.c" />
-    <ClCompile Include="pdcclip.c" />
-    <ClCompile Include="pdcdisp.c" />
-    <ClCompile Include="pdcgetsc.c" />
-    <ClCompile Include="pdckbd.c" />
-    <ClCompile Include="pdcscrn.c" />
-    <ClCompile Include="pdcsetsc.c" />
-    <ClCompile Include="pdcutil.c" />
-    <ClCompile Include="printw.c" />
-    <ClCompile Include="refresh.c" />
-    <ClCompile Include="scanw.c" />
-    <ClCompile Include="scroll.c" />
-    <ClCompile Include="scr_dump.c" />
-    <ClCompile Include="slk.c" />
-    <ClCompile Include="termattr.c" />
-    <ClCompile Include="terminfo.c" />
-    <ClCompile Include="touch.c" />
-    <ClCompile Include="util.c" />
-    <ClCompile Include="window.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="acs_defs.h" />
-    <ClInclude Include="curses.h" />
-    <ClInclude Include="curspriv.h" />
-    <ClInclude Include="panel.h" />
-    <ClInclude Include="pdcwin.h" />
-    <ClInclude Include="term.h" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{33F91163-DCF2-4BFE-9A2E-AFC265CED948}</ProjectGuid>
+    <ProjectGuid>{12B38393-260C-4195-8C0D-0C10ABDB7B65}</ProjectGuid>
     <RootNamespace>PDCurses</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -129,13 +70,28 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>PDC_WIDE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\ext\PDCurses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Code\other\cpp\MistwoodTales\PDCurses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PDC_WIDE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\ext\PDCurses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -143,8 +99,8 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Code\other\cpp\MistwoodTales\PDCurses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PDC_WIDE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\ext\PDCurses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -154,29 +110,79 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Code\other\cpp\MistwoodTales\PDCurses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PDC_WIDE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\ext\PDCurses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Code\other\cpp\MistwoodTales\PDCurses;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
-    <Link>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-    </Link>
-  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\addch.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\addchstr.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\addstr.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\attr.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\beep.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\bkgd.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\border.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\clear.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\color.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\debug.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\delch.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\deleteln.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\deprec.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\getch.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\getstr.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\getyx.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\inch.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\inchstr.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\initscr.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\inopts.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\insch.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\insstr.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\instr.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\kernel.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\keyname.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\mouse.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\move.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\outopts.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\overlay.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\pad.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\panel.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\printw.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\refresh.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\scanw.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\scroll.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\scr_dump.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\slk.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\termattr.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\terminfo.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\touch.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\util.c" />
+    <ClCompile Include="..\..\ext\PDCurses\pdcurses\window.c" />
+    <ClCompile Include="..\..\ext\PDCurses\win32a\pdcclip.c" />
+    <ClCompile Include="..\..\ext\PDCurses\win32a\pdcdisp.c" />
+    <ClCompile Include="..\..\ext\PDCurses\win32a\pdcgetsc.c" />
+    <ClCompile Include="..\..\ext\PDCurses\win32a\pdckbd.c" />
+    <ClCompile Include="..\..\ext\PDCurses\win32a\pdcscrn.c" />
+    <ClCompile Include="..\..\ext\PDCurses\win32a\pdcsetsc.c" />
+    <ClCompile Include="..\..\ext\PDCurses\win32a\pdcutil.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\ext\PDCurses\acs_defs.h" />
+    <ClInclude Include="..\..\ext\PDCurses\curses.h" />
+    <ClInclude Include="..\..\ext\PDCurses\curspriv.h" />
+    <ClInclude Include="..\..\ext\PDCurses\panel.h" />
+    <ClInclude Include="..\..\ext\PDCurses\term.h" />
+    <ClInclude Include="..\..\ext\PDCurses\win32a\pdcwin.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\ext\PDCurses\win32a\pdcurses.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\ext\PDCurses\win32a\pdcurses.rc" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

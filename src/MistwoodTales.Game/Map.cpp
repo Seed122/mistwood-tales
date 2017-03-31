@@ -3,7 +3,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-#include "curses.h"
+#include <curses.h>
 #include <codecvt>
 #include "Camera.h"
 using namespace std;

@@ -7,7 +7,7 @@
 #include "Map.h"
 #include "World.h"
 #include "Player.h"
-#include "curses.h"
+#include <curses.h>
 #include "Camera.h"
 
 using namespace std;

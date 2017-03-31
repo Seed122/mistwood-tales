@@ -1,0 +1,3 @@
+[submodule "ext/PDCurses"]
+	path = ext/PDCurses
+	url = https://github.com/Seed122/PDCurses.git

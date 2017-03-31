@@ -1,4 +1,4 @@
-#include "curses.h";
+#include <curses.h>
 #pragma once
 class Camera
 {

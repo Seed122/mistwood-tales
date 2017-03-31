@@ -1,5 +1,5 @@
 ﻿#include "Camera.h"
-#include "curses.h"
+#include <curses.h>
 #include "World.h"
 #include "Player.h"
 
