@@ -40,7 +40,6 @@ int Map::Load(string file) {
 		//cout << "There was an error opening the file.\n";
 		return -1;
 	}
-	// todo:dfds
 	wstringstream inputStream = readFile(file.c_str());
 	wstring input;
 	//inputStream.getline(&input, INT32_MAX, ',');
@@ -79,8 +78,6 @@ int Map::Load(string file) {
 		Data[i].CanWalk = stoi(input);
 	}
 }
-
-//#pragma optimize( "", off )   
 
 //
 //int Map::Load(string file) {

@@ -3,15 +3,8 @@
 #include "World.h"
 #include "Player.h"
 #include "panel.h"
-
-#define EMPTY_SYMBOL ' '
-
-
-// ctor
-Camera::Camera()
-{
-}
-
+#include <thread>
+#include "Globals.h"
 
 
 PANEL *mkpanel(int rows, int cols, int tly, int tlx)
@@ -30,14 +23,70 @@ PANEL *mkpanel(int rows, int cols, int tly, int tlx)
 	return pan;
 }
 
-void Camera::Init(int width, int height, WINDOW * window) {
+
+#define RENDERDELAY 80
+//#define INPUTDELAY 100
+
+void Camera::RenderScreenThreadFunction() {
+	while (!Globals::isShuttingDown) {
+		Render();
+		napms(RENDERDELAY);
+	}
+}
+
+
+
+void processSymbol(int symbol) {
+	Player * player = World::Instance().FirstPerson;
+	switch (symbol)
+	{
+	case KEY_UP:
+		player->Move(Direction::Up);
+		break;
+	case KEY_DOWN:
+		player->Move(Direction::Down);
+		break;
+	case KEY_LEFT:
+		player->Move(Direction::Left);
+		break;
+	case KEY_RIGHT:
+		player->Move(Direction::Right);
+		break;
+	case KEY_MOUSE:
+		// check what is that at the point
+		request_mouse_pos();
+		// Mouse_status.x, Mouse_status.y etc...
+		break;
+	case 'q':
+		Globals::isShuttingDown = true;
+		break;
+	default:
+		break;
+	}
+}
+
+void Camera::InputThreadFunction() const
+{
+
+	while (!Globals::isShuttingDown) {
+		int symbol = getch();
+		processSymbol(symbol);
+		//napms(INPUTDELAY);
+	}
+}
+
+
+Camera::Camera(int width, int height, WINDOW * window): _camX1(0), _camX2(0), _camY1(0), _camY2(0)
+{
 	curs_set(0);
 	Width = width;
 	Height = height;
 	auto camPanel = mkpanel(LINES, COLS, 0, 0);
-	Window = camPanel -> win;
+	Window = camPanel->win;
 	_screenCenterX = Width / 2;
 	_screenCenterY = Height / 2;
+
+	// create player panel
 	int ppwidth = 40;
 	int ppheight = 4;
 	PlayerPanel = mkpanel(ppheight, ppwidth, 0, 0);
@@ -45,6 +94,31 @@ void Camera::Init(int width, int height, WINDOW * window) {
 	auto player = World::Instance().FirstPerson;
 	mvwaddstr(PlayerPanel->win, 0, 3, player->Name.c_str());
 	show_panel(PlayerPanel);
+
+	// create sightings panel
+	int spwidth = 60;
+	int spheight = 6;
+	SightingsPanel = mkpanel(spheight, spwidth, LINES - spheight, COLS - spwidth);
+	box(SightingsPanel->win, 0, 0);
+
+	_screenThread = new thread(&Camera::RenderScreenThreadFunction, this);
+	_inThread = new thread(&Camera::InputThreadFunction, this);
+}
+
+Point Camera::AbsoluteToRelativeCoords(Point absoluteCoords)
+{
+	Point res;
+	res.X = absoluteCoords.X - _camX1;
+	res.Y = absoluteCoords.Y - _camY1;
+	return res;
+}
+
+Point Camera::RelativeToAbsoluteCoords(Point relativeCoords)
+{
+	Point res;
+	res.X = relativeCoords.X + _camX1;
+	res.Y = relativeCoords.Y + _camY1;
+	return res;
 }
 
 void Camera::Render()
@@ -70,12 +144,8 @@ void Camera::Render()
 		_camY2 = map->Height;
 		_camY1 = _camY2 - Height;
 	}
-	RenderLandscape();
-	RenderNPCs();
-	RenderPlayer();
-	RenderPlayerPanel();
 	
-
+	RenderContent();
 
 	update_panels();
 	doupdate();
@@ -95,12 +165,21 @@ void Camera::SetColor(attr_t color) {
 
 void Camera::RenderNPCs() {
 
-	attr_t color = GetOutputRgbColor(95, 186, 125, 0, 0, 0);
+	attr_t color = GetOutputRgbColor(0, 255, 0, 0, 0, 0);
 	color |= A_UNDERLINE | A_BOLD;
 	SetColor(color);
 	for (auto &npc : World::Instance().NPCs) {
 		mvwaddch(Window, npc.Y - _camY1, npc.X - _camX1, npc.Symbol);
 	}
+}
+
+void Camera::RenderContent()
+{
+	RenderLandscape();
+	RenderNPCs();
+	RenderPlayer();
+	RenderPlayerPanel();
+	RenderSightingsPanel();
 }
 
 void Camera::RenderPlayerPanel()
@@ -135,6 +214,10 @@ void Camera::RenderPlayer() {
 	mvwaddch(Window, player->Y - _camY1, player->X - _camX1, symbol);
 }
 
+void Camera::RenderSightingsPanel()
+{
+}
+
 
 
 void Camera::RenderLandscape() {
@@ -151,13 +234,19 @@ void Camera::RenderLandscape() {
 				&& (i < PlayerPanel->wendy)) {
 				continue;;
 			}
-			MapItem item = map->GetItem(j + _camX1, i + _camY1);
+			auto coords = RelativeToAbsoluteCoords(Point(j,i));
+			MapItem item = map->GetItem(coords.X, coords.Y);
 			SetColor(item.Color);
 			mvwaddch(Window, i, j, item.Symbol);
 		}
 	}
 }
 
+
 Camera::~Camera()
 {
+	_screenThread->join();
+	delete _screenThread;
+	_inThread->join();
+	delete _inThread;
 }

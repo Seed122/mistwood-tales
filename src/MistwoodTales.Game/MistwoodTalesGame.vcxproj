@@ -158,10 +158,13 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="Globals.h" />
     <ClInclude Include="MoveableEntity.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Point.h" />
+    <ClInclude Include="Sighting.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
@@ -173,6 +176,7 @@
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Sighting.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>

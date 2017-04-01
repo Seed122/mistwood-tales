@@ -22,6 +22,9 @@
     <Filter Include="Engine">
       <UniqueIdentifier>{2c95c26a-d367-4bfe-b055-45e056cf172a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Elements">
+      <UniqueIdentifier>{186fbb27-c6bf-4a89-883e-0f1cee35d28b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
@@ -46,6 +49,15 @@
       <Filter>World\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Sighting.h">
+      <Filter>Engine\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Point.h">
+      <Filter>Engine\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Globals.h">
       <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>
@@ -73,6 +85,9 @@
     </ClCompile>
     <ClCompile Include="Core.cpp">
       <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Sighting.cpp">
+      <Filter>Engine\Elements</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
