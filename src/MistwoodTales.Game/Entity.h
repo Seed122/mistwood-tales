@@ -10,6 +10,6 @@ public:
 	int X;
 	int Y;
 	wchar_t Symbol;
-	std::string Name;
+	std::wstring Name;
 };
 

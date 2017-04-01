@@ -89,7 +89,6 @@ int Map::Load(string file) {
 //		//cout << "There was an error opening the file.\n";
 //		return -1;
 //	}
-//	// todo:dfds
 //	//wstringstream inputStream = readFile(file.c_str());
 //	string input;
 //	//inputStream.getline(&input, INT32_MAX, ',');
@@ -149,4 +148,9 @@ MapItem Map::GetItem(int x, int y) {
 		throw (-1);
 	long index = Width*y + x;
 	return Data[index];
+}
+
+MapItem Map::GetItem(Point point)
+{
+	return GetItem(point.X, point.Y);
 }

@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "NPC.h"
 #include "vector"
+#include "Sighting.h"
 
 #pragma once
 class World
@@ -16,9 +17,11 @@ public:
 	Map * CurrentMap;
 	Player * FirstPerson;
 	vector<NPC> NPCs;
-	
+	Sighting GetSighting(const Point& point);
+
 private:
 	void initNPCs();
+	void initPlayer();
 	World();
 	~World();
 	// необходимо также запретить копирование

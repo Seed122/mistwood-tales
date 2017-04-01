@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <curses.h>
+struct Point;
 using namespace std;
 
 
@@ -29,5 +30,6 @@ private:
 public:
 	bool CheckIfCoordsAreAvailable(int x, int y);
 	MapItem GetItem(int x, int y);
+	MapItem GetItem(Point point);
 };
 

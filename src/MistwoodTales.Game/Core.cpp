@@ -14,7 +14,7 @@ void dispose() {
 
 
 volatile bool Globals::isShuttingDown = false;
-Camera * Globals::Camera = NULL;
+Camera * Globals::Camera = nullptr;
 
 void initConsole() {
 
@@ -26,11 +26,8 @@ void initConsole() {
 	int _cols = 150;
 	resize_term(_rows, _cols);
 	mvwaddstr(mainWnd, 1, 1, "Loading...");
-	//_cam = new Camera(_cols, _rows, mainWnd);;
-	Globals::Camera = new Camera(_cols, _rows, mainWnd);;
-
-
-
+	Globals::Camera = new Camera(_cols, _rows, mainWnd);
+	curs_set(0);
 	raw();            // Accept raw keyboard input, so you don't have to
 					  // strike Enter after every keypress.
 

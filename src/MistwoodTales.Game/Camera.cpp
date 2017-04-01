@@ -5,6 +5,7 @@
 #include "panel.h"
 #include <thread>
 #include "Globals.h"
+#include <sstream>
 
 
 PANEL *mkpanel(int rows, int cols, int tly, int tlx)
@@ -36,7 +37,19 @@ void Camera::RenderScreenThreadFunction() {
 
 
 
-void processSymbol(int symbol) {
+void Camera::processSymbol(int symbol) {
+	if (KEY_MOUSE == symbol) {
+		// check what is that at the point
+		request_mouse_pos();
+		if (-1 == Mouse_status.x || -1 == Mouse_status.y) {
+			return;
+		}
+		auto coords = RelativeToAbsoluteCoords(Point(Mouse_status.x, Mouse_status.y));
+		auto sighting = World::Instance().GetSighting(coords);
+		AddSighting(sighting);
+		// Mouse_status.x, Mouse_status.y etc...
+		return;
+	}
 	Player * player = World::Instance().FirstPerson;
 	switch (symbol)
 	{
@@ -52,11 +65,6 @@ void processSymbol(int symbol) {
 	case KEY_RIGHT:
 		player->Move(Direction::Right);
 		break;
-	case KEY_MOUSE:
-		// check what is that at the point
-		request_mouse_pos();
-		// Mouse_status.x, Mouse_status.y etc...
-		break;
 	case 'q':
 		Globals::isShuttingDown = true;
 		break;
@@ -65,9 +73,8 @@ void processSymbol(int symbol) {
 	}
 }
 
-void Camera::InputThreadFunction() const
+void Camera::InputThreadFunction()
 {
-
 	while (!Globals::isShuttingDown) {
 		int symbol = getch();
 		processSymbol(symbol);
@@ -78,7 +85,6 @@ void Camera::InputThreadFunction() const
 
 Camera::Camera(int width, int height, WINDOW * window): _camX1(0), _camX2(0), _camY1(0), _camY2(0)
 {
-	curs_set(0);
 	Width = width;
 	Height = height;
 	auto camPanel = mkpanel(LINES, COLS, 0, 0);
@@ -92,15 +98,22 @@ Camera::Camera(int width, int height, WINDOW * window): _camX1(0), _camX2(0), _c
 	PlayerPanel = mkpanel(ppheight, ppwidth, 0, 0);
 	box(PlayerPanel->win, 0, 0);
 	auto player = World::Instance().FirstPerson;
-	mvwaddstr(PlayerPanel->win, 0, 3, player->Name.c_str());
+	mvwaddwstr(PlayerPanel->win, 0, 3, player->Name.c_str());
 	show_panel(PlayerPanel);
 
 	// create sightings panel
 	int spwidth = 60;
-	int spheight = 6;
-	SightingsPanel = mkpanel(spheight, spwidth, LINES - spheight, COLS - spwidth);
-	box(SightingsPanel->win, 0, 0);
-
+	int spheight = 3;
+	SightingsBorderedPanel = mkpanel(spheight, spwidth, LINES - spheight, COLS - spwidth);
+	for (int i = 1; i < spheight; i++) {
+		mvwaddch(SightingsBorderedPanel->win, i, 0, ACS_VLINE);
+	}
+	for (int i = 1; i < spwidth; i++) {
+		mvwaddch(SightingsBorderedPanel->win, 0, i, ACS_HLINE);
+	}
+	mvwaddch(SightingsBorderedPanel->win, 0, 0, ACS_ULCORNER);
+	//box(SightingsBorderedPanel->win, 0, 0);
+	SightingsPanel = mkpanel(spheight - 1, spwidth - 1, LINES - spheight + 1, COLS - spwidth + 1);
 	_screenThread = new thread(&Camera::RenderScreenThreadFunction, this);
 	_inThread = new thread(&Camera::InputThreadFunction, this);
 }
@@ -158,8 +171,19 @@ attr_t Camera::GetOutputRgbColor(short fr, short fg, short fb, short br, short b
 	return output_color;
 }
 
-void Camera::SetColor(attr_t color) {
+void Camera::SetColor(attr_t color) const
+{
 	wattrset(Window, color);
+}
+
+int maxSightingsCount = 1;
+
+void Camera::AddSighting(Sighting sighting)
+{
+	if (Sightings.size() == maxSightingsCount) {
+		Sightings.pop_front();
+	}
+	Sightings.push_back(sighting);
 }
 
 
@@ -216,6 +240,16 @@ void Camera::RenderPlayer() {
 
 void Camera::RenderSightingsPanel()
 {
+	auto win = SightingsPanel->win;
+	int sightingsCount = Sightings.size() < maxSightingsCount 
+		? Sightings.size() 
+		: maxSightingsCount;
+	wclear(win);
+	for (auto &element : Sightings) {
+		SetColor(GetOutputRgbColor(255, 0, 120, 0, 0, 0));
+		waddwstr(win, element.Description.c_str());
+		waddch(win,'\n');
+	}
 }
 
 
@@ -249,4 +283,7 @@ Camera::~Camera()
 	delete _screenThread;
 	_inThread->join();
 	delete _inThread;
+	delete PlayerPanel;
+	delete SightingsPanel;
+	delete SightingsBorderedPanel;
 }

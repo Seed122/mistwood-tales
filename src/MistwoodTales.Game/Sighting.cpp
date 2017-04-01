@@ -1,9 +1,12 @@
 #include "Sighting.h"
 
-Sighting::Sighting(attr_t color, std::string description)
+Sighting::Sighting(std::wstring description)
 {
-	Color = color;
 	Description = description;
+}
+
+Sighting::Sighting()
+{
 }
 
 Sighting::~Sighting()
