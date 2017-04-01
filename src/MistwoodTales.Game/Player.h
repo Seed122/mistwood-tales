@@ -7,5 +7,9 @@ class Player : 	public MoveableEntity
 public:
 	Player();
 	~Player();
+	// Life
+	int HP;
+	int MaxHP;
+	void TakeDamage(int damage);
 };
 

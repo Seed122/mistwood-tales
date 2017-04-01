@@ -13,57 +13,66 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="World">
+      <UniqueIdentifier>{24ae2071-f69b-4797-b4ec-37de42db476a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="World\Entities">
+      <UniqueIdentifier>{3679da1a-5ae6-4f59-bf20-0e5410239a41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{2c95c26a-d367-4bfe-b055-45e056cf172a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Map.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MoveableEntity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="NPC.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="World.h">
-      <Filter>Header Files</Filter>
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>World\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveableEntity.h">
+      <Filter>World\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>World\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="NPC.h">
+      <Filter>World\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="World.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Map.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>World</Filter>
     </ClCompile>
-    <ClCompile Include="Core.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="World.cpp">
+      <Filter>World</Filter>
     </ClCompile>
     <ClCompile Include="Entity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>World\Entities</Filter>
     </ClCompile>
     <ClCompile Include="MoveableEntity.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>World\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>World\Entities</Filter>
     </ClCompile>
     <ClCompile Include="NPC.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>World\Entities</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Core.cpp">
+      <Filter>Engine</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

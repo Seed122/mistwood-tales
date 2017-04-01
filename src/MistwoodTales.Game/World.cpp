@@ -9,6 +9,9 @@ World::World()
 {
 	CurrentMap = new Map("map.txt");
 	FirstPerson = new Player();
+	FirstPerson->MaxHP = 88;
+	FirstPerson->HP = 70;
+	FirstPerson->Name = "Gatmeat";
 	initNPCs();
 }
 

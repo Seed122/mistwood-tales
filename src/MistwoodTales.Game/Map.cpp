@@ -20,35 +20,7 @@ Map::~Map()
 	delete Data;
 }
 
-//
-//int Map::Load(string file)
-//{
-//	ifstream infile;
-//	infile.open(file, 1);
-//	if (!infile.is_open())
-//	{
-//		//cout << "There was an error opening the file.\n";
-//		return -1;
-//	}
-//	// todo:dfds
-//
-//
-//	Height = std::count(std::istreambuf_iterator<char>(infile),
-//		std::istreambuf_iterator<char>(), '\n');
-//	infile.clear();
-//	infile.seekg(0, ios::beg);
-//	string fileString;
-//	infile >> fileString;
-//	Width = fileString.length();
-//	infile.clear();
-//	infile.seekg(0, ios::beg);
-//	Walls = new char*[Height];
-//	for (int i = 0; i < Height; i++) {
-//		Walls[i] = new char[Width];
-//		infile.getline(Walls[i], INT32_MAX, '\n');
-//	}
-//	return 0;
-//}
+#pragma optimize( "g", on )   
 
 std::wstringstream readFile(const char* filename)
 {
@@ -59,29 +31,6 @@ std::wstringstream readFile(const char* filename)
 	return wss;
 }
 
-//
-//wchar_t const* const digitTables[] =
-//{
-//	L"0123456789",
-//	L"\u0660\u0661\u0662\u0663\u0664\u0665\u0666\u0667\u0668\u0669",
-//	// ...
-//};
-////!     \return
-////!         wch as a numeric digit, or -1 if it is not a digit
-//int asNumeric(wchar_t wch)
-//{
-//	int result = -1;
-//	for (wchar_t const* const* p = std::begin(digitTables);
-//		p != std::end(digitTables) && result == -1;
-//		++p) {
-//		wchar_t const* q = std::find(*p, *p + 10, wch);
-//		if (q != *p + 10) {
-//			result = q - *p;
-//		}
-//		return result;
-//	}
-//}
-//
 int Map::Load(string file) {
 	wifstream infile;
 	//infile.imbue(std::locale(std::locale::empty(), new std::codecvt_utf8<wchar_t>));
@@ -127,11 +76,11 @@ int Map::Load(string file) {
 		std::getline(inputStream, input, L',');
 		Data[i].Symbol = input[0];
 		std::getline(inputStream, input, L'\n');
-		
 		Data[i].CanWalk = stoi(input);
-		//infile.getline(Walls[i], INT32_MAX, '\n');
 	}
 }
+
+//#pragma optimize( "", off )   
 
 //
 //int Map::Load(string file) {

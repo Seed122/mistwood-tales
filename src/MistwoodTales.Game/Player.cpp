@@ -3,6 +3,8 @@
 
 
 Player::Player()
+	: HP(0)
+	, MaxHP(0)
 {
 	X = 120;
 	Y = 20;
@@ -13,4 +15,13 @@ Player::Player()
 
 Player::~Player()
 {
+}
+
+
+void Player::TakeDamage(int damage)
+{
+	HP -= damage;
+	if (HP < 0) {
+		HP = 0;
+	}
 }

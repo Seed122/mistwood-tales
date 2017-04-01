@@ -1,25 +1,21 @@
 #include <signal.h>
 #include <ctype.h>
 #include <stdlib.h>
-#include <sys/types.h>
-#include <time.h>
 #include <thread>
 #include "Map.h"
 #include "World.h"
 #include "Player.h"
 #include <curses.h>
 #include "Camera.h"
+#include <panel.h>
 
 using namespace std;
-//using namespace World;
-
-
-
 volatile bool ApplicationExiting = false;
 
 #define RENDERDELAY 80
 #define INPUTDELAY 100
 
+PANEL * _mapPanel;
 
 void processSymbol(int symbol) {
 	Player * player = World::Instance().FirstPerson;
@@ -37,6 +33,11 @@ void processSymbol(int symbol) {
 	case KEY_RIGHT:
 		player->Move(Direction::Right);
 		break;
+	case KEY_MOUSE:
+		// check what is that
+		request_mouse_pos();
+		// Mouse_status.x, Mouse_status.y etc...
+		break;
 	case 'q':
 		ApplicationExiting = true;
 		break;
@@ -48,16 +49,15 @@ void processSymbol(int symbol) {
 std::thread * _screenThread;
 void renderScreenThread() {
 	while (!ApplicationExiting) {
-		erase();
 		Camera::Instance().Render();
 		napms(RENDERDELAY);
-		refresh();
 	}
 }
 
 
 std::thread * _inThread;
 void inputThread() {
+
 	while (!ApplicationExiting) {
 		int symbol = getch();
 		processSymbol(symbol);
@@ -73,31 +73,25 @@ void dispose() {
 	endwin();
 }
 
-
 void initConsole() {
-	WINDOW * wnd = initscr();
-	Camera::Instance().Window = wnd;
+	WINDOW * mainWnd = initscr();
+	mouse_set(ALL_MOUSE_EVENTS);
+	PDC_save_key_modifiers(TRUE);
+	PDC_return_key_modifiers(TRUE);
+	int _rows = 40;
+	int _cols = 150;
+	resize_term(_rows, _cols);
+	mvwaddstr(mainWnd, 1, 1, "Loading map...");
+	Camera::Instance().Init(_cols, _rows, mainWnd);
+
+
 
 	raw();            // Accept raw keyboard input, so you don't have to
 					  // strike Enter after every keypress.
 
-	noecho();         // Don't echo user input back to the screen.
-	start_color();
-	//short r = floor(52 * 3.921)/10;
-	//short g = floor(168 * 3.921) / 10;
-	//short b = floor(83 * 3.921) / 10;
-	//short colorId = 15;
-	////init_color(colorId, r, g, b);
-	////init_pair(1, COLOR_WHITE, COLOR_BLACK);
-	//
-
-	////init_pair(2, colorId, colorId);
-	////init_pair(3, COLOR_BLACK, COLOR_GREEN);
 	////nodelay(stdscr, false);
-	//noecho();
-	keypad(wnd, TRUE);
-	//
-	//bool exit = false;
+	noecho();
+	keypad(mainWnd, TRUE);
 	_screenThread = new std::thread(renderScreenThread);
 	_inThread = new std::thread(inputThread);
 }

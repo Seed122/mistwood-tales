@@ -2,6 +2,7 @@
 #include <curses.h>
 #include "World.h"
 #include "Player.h"
+#include "panel.h"
 
 #define EMPTY_SYMBOL ' '
 
@@ -9,21 +10,41 @@
 // ctor
 Camera::Camera()
 {
-	int _rows = 40;
-	int _cols = 100;
-	resize_term(_rows, _cols);
-	///* Get the largest physical screen dimensions */
-	//getmaxyx(Window, _rows, _cols);
+}
 
-	/* Resize so it fits */
-	//resize_term(_rows - 1, _cols - 1);
 
-	/* Get the screen dimensions that fit */
-	//getmaxyx(Window, _rows, _cols);
-	Width = COLS;
-	Height = LINES;
+
+PANEL *mkpanel(int rows, int cols, int tly, int tlx)
+{
+	WINDOW *win = newwin(rows, cols, tly, tlx);
+	PANEL *pan = (PANEL *)0;
+
+	if (win)
+	{
+		pan = new_panel(win);
+
+		if (!pan)
+			delwin(win);
+	}
+
+	return pan;
+}
+
+void Camera::Init(int width, int height, WINDOW * window) {
+	curs_set(0);
+	Width = width;
+	Height = height;
+	auto camPanel = mkpanel(LINES, COLS, 0, 0);
+	Window = camPanel -> win;
 	_screenCenterX = Width / 2;
 	_screenCenterY = Height / 2;
+	int ppwidth = 40;
+	int ppheight = 4;
+	PlayerPanel = mkpanel(ppheight, ppwidth, 0, 0);
+	box(PlayerPanel->win, 0, 0);
+	auto player = World::Instance().FirstPerson;
+	mvwaddstr(PlayerPanel->win, 0, 3, player->Name.c_str());
+	show_panel(PlayerPanel);
 }
 
 void Camera::Render()
@@ -49,24 +70,26 @@ void Camera::Render()
 		_camY2 = map->Height;
 		_camY1 = _camY2 - Height;
 	}
-
 	RenderLandscape();
 	RenderNPCs();
 	RenderPlayer();
+	RenderPlayerPanel();
+	
 
-	move(Height - 1, Width - 1);
+
+	update_panels();
+	doupdate();
 }
 
 // colors: 0-255
-inline attr_t Camera::GetOutputRgbColor(short fr, short fg, short fb, short br, short bg, short bb) {
+attr_t Camera::GetOutputRgbColor(short fr, short fg, short fb, short br, short bg, short bb) {
 	const float coeff = 31.0 / 255.0;
 	attr_t output_color = A_RGB(fr * coeff, fg * coeff, fb * coeff, br * coeff, bg * coeff, bb * coeff);
 	return output_color;
 }
 
-void setColor(attr_t color) {
-	
-	attrset(color);
+void Camera::SetColor(attr_t color) {
+	wattrset(Window, color);
 }
 
 
@@ -74,17 +97,21 @@ void Camera::RenderNPCs() {
 
 	attr_t color = GetOutputRgbColor(95, 186, 125, 0, 0, 0);
 	color |= A_UNDERLINE | A_BOLD;
-	setColor(color);
+	SetColor(color);
 	for (auto &npc : World::Instance().NPCs) {
-
-		mvaddch(npc.Y - _camY1, npc.X - _camX1, npc.Symbol);
+		mvwaddch(Window, npc.Y - _camY1, npc.X - _camX1, npc.Symbol);
 	}
 }
 
+void Camera::RenderPlayerPanel()
+{
+	auto player = World::Instance().FirstPerson;
+	mvwprintw(PlayerPanel->win, 1, 1, "HP: %d/%d", player->HP, player->MaxHP);
+}
+
 void Camera::RenderPlayer() {
-	//attron(COLOR_PAIR(3));
 	attr_t color = GetOutputRgbColor(10, 109, 255, 230, 230, 230);
-	setColor(color);
+	SetColor(color);
 	Player* player = World::Instance().FirstPerson;
 	wchar_t symbol;
 	switch (player->FaceDirection)
@@ -105,35 +132,28 @@ void Camera::RenderPlayer() {
 	default:
 		break;
 	}
-	mvaddch(player->Y - _camY1, player->X - _camX1, symbol);
+	mvwaddch(Window, player->Y - _camY1, player->X - _camX1, symbol);
 }
 
 
 
 void Camera::RenderLandscape() {
 
-	Player* player = World::Instance().FirstPerson;
 	Map* map = World::Instance().CurrentMap;
-	//for (int i = 0; i < Height; i++) {
-	//	for (int j = 0; j < Width; j++)
-	//	{
-	//		int mapX = (player->X - _screenCenterX) + j;
-	//		int mapY = (player->Y - _screenCenterY) + i;
-	//		if (mapX < 0 || mapY < 0 || mapX >= map->Width || mapY >= map->Height) {
-	//		}
-	//		else {
-	//			MapItem item = map->GetItem(mapX, mapY);
-	//			setColor(item.Color);
-	//			mvaddch(i, j, item.Symbol);
-	//		}
-	//	}
-	//}
 	for (int i = 0; i < Height; i++) {
 		for (int j = 0; j < Width; j++)
 		{
+			// optimization for player panel
+			// do not render map there
+			if ((j >= PlayerPanel->wstartx)
+				&& (j < PlayerPanel->wendx) 
+				&& (i >= PlayerPanel->wstarty)
+				&& (i < PlayerPanel->wendy)) {
+				continue;;
+			}
 			MapItem item = map->GetItem(j + _camX1, i + _camY1);
-			setColor(item.Color);
-			mvaddch(i, j, item.Symbol);
+			SetColor(item.Color);
+			mvwaddch(Window, i, j, item.Symbol);
 		}
 	}
 }
