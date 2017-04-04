@@ -3,6 +3,7 @@
 #include "Map.h"
 #include "NPC.h"
 #include <string>
+#include "Point.h"
 
 
 World::World()
@@ -43,6 +44,7 @@ Sighting World::GetSighting(const Point& point)
 
 
 	Sighting res = Sighting();
+	
 	if (FirstPerson->X == point.X && FirstPerson->Y == point.Y) {
 		res.Description = L"Это я, " + FirstPerson->Name;
 		return res;
