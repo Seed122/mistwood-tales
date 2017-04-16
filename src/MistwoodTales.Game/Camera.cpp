@@ -73,6 +73,29 @@ void Camera::processSymbol(int symbol) {
 	}
 }
 
+bool Camera::NpcIsInFrontOfMe() {
+	auto player = World::Instance().FirstPerson;
+	auto dir = player->FaceDirection;
+	int dx = 0, dy = 0;
+	switch (dir) {
+	case Direction::Down:
+		dy++;
+		break;
+		case Direction::Up:
+			dy++;
+			break;
+		case Direction::Left:
+			dx--;
+			break;
+		case Direction::Right:
+			dx++;
+			break;
+
+	}
+	auto npcPoint = Point();
+
+}
+
 void Camera::InputThreadFunction()
 {
 	while (!Globals::isShuttingDown) {

@@ -60,6 +60,12 @@
     <ClInclude Include="Globals.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="Quest.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="QuestSession.h">
+      <Filter>World\Entities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Map.cpp">
@@ -88,6 +94,12 @@
     </ClCompile>
     <ClCompile Include="Sighting.cpp">
       <Filter>Engine\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Quest.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="QuestSession.cpp">
+      <Filter>World\Entities</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

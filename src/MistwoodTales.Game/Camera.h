@@ -23,6 +23,7 @@ public:
 	void InputThreadFunction();
 	void RenderScreenThreadFunction();
 	void processSymbol(int symbol);
+	bool NpcIsInFrontOfMe();
 	void AddSighting(Sighting sighting);
 private:
 	int _screenCenterX;
