@@ -8,17 +8,17 @@
 using namespace std;
 
 void dispose() {
-	delete Globals::Camera;
+	delete Globals::Cam;
 	endwin();
 }
 
 
 volatile bool Globals::isShuttingDown = false;
-Camera * Globals::Camera = nullptr;
+Camera * Globals::Cam = nullptr;
 
 void initConsole() {
 
-	WINDOW * mainWnd = initscr();
+ 	WINDOW * mainWnd = initscr();
 	mouse_set(ALL_MOUSE_EVENTS);
 	PDC_save_key_modifiers(TRUE);
 	PDC_return_key_modifiers(TRUE);
@@ -26,7 +26,7 @@ void initConsole() {
 	int _cols = 150;
 	resize_term(_rows, _cols);
 	mvwaddstr(mainWnd, 1, 1, "Loading...");
-	Globals::Camera = new Camera(_cols, _rows, mainWnd);
+	Globals::Cam = new Camera(_cols, _rows, mainWnd);
 	curs_set(0);
 	raw();            // Accept raw keyboard input, so you don't have to
 					  // strike Enter after every keypress.
@@ -36,7 +36,7 @@ void initConsole() {
 	keypad(mainWnd, TRUE);
 }
 
-#ifdef _CONSOLE
+#ifndef WIN32
 int main() {
 #else
 int WinMain() {

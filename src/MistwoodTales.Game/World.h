@@ -10,7 +10,6 @@ class World
 public:
 	static World& Instance()
 	{
-		// согласно стандарту, этот код ленивый и потокобезопасный
 		static World w;
 		return w;
 	}
@@ -19,12 +18,9 @@ public:
 	vector<NPC> NPCs;
 	Sighting GetSighting(const Point& point);
 
+	World();
+	~World();
 private:
 	void initNPCs();
 	void initPlayer();
-	World();
-	~World();
-	// необходимо также запретить копирование
-	World(World const&) = delete;
-	World& operator= (World const&) = delete;
 };

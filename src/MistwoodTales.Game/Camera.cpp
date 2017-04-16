@@ -3,10 +3,14 @@
 #include "World.h"
 #include "Player.h"
 #include "panel.h"
-#include <thread>
 #include "Globals.h"
 #include <sstream>
 
+#ifdef WIN32
+#include <thread>
+#else
+#include <pthread.h>
+#endif
 
 PANEL *mkpanel(int rows, int cols, int tly, int tlx)
 {
@@ -25,15 +29,7 @@ PANEL *mkpanel(int rows, int cols, int tly, int tlx)
 }
 
 
-#define RENDERDELAY 80
-//#define INPUTDELAY 100
 
-void Camera::RenderScreenThreadFunction() {
-	while (!Globals::isShuttingDown) {
-		Render();
-		napms(RENDERDELAY);
-	}
-}
 
 
 
@@ -73,14 +69,25 @@ void Camera::processSymbol(int symbol) {
 	}
 }
 
-void Camera::InputThreadFunction()
-{
-	while (!Globals::isShuttingDown) {
-		int symbol = getch();
-		processSymbol(symbol);
-		//napms(INPUTDELAY);
+
+
+	#define RENDERDELAY 80
+	//#define INPUTDELAY 100
+
+	void Camera::RenderScreenThreadFunction() {
+		while (!Globals::isShuttingDown) {
+			Render();
+			napms(RENDERDELAY);
+		}
 	}
-}
+	void Camera::InputThreadFunction()
+	{
+		while (!Globals::isShuttingDown) {
+			int symbol = getch();
+			processSymbol(symbol);
+			//napms(INPUTDELAY);
+		}
+	}
 
 
 Camera::Camera(int width, int height, WINDOW * window): _camX1(0), _camX2(0), _camY1(0), _camY2(0)
@@ -97,7 +104,9 @@ Camera::Camera(int width, int height, WINDOW * window): _camX1(0), _camX2(0), _c
 	int ppheight = 4;
 	PlayerPanel = mkpanel(ppheight, ppwidth, 0, 0);
 	box(PlayerPanel->win, 0, 0);
-	auto player = World::Instance().FirstPerson;
+	//auto player = World::Instance().FirstPerson;
+	auto world = World::Instance();
+	auto player = world.FirstPerson;
 	mvwaddwstr(PlayerPanel->win, 0, 3, player->Name.c_str());
 	show_panel(PlayerPanel);
 
@@ -114,8 +123,15 @@ Camera::Camera(int width, int height, WINDOW * window): _camX1(0), _camX2(0), _c
 	mvwaddch(SightingsBorderedPanel->win, 0, 0, ACS_ULCORNER);
 	//box(SightingsBorderedPanel->win, 0, 0);
 	SightingsPanel = mkpanel(spheight - 1, spwidth - 1, LINES - spheight + 1, COLS - spwidth + 1);
-	_screenThread = new thread(&Camera::RenderScreenThreadFunction, this);
-	_inThread = new thread(&Camera::InputThreadFunction, this);
+	#ifdef WIN32
+		_screenThread = new thread(&Camera::RenderScreenThreadFunction, this);
+		_inThread = new thread(&Camera::InputThreadFunction, this);
+	#else
+		//void* w;
+		//pthread_create(&_screenThread, NULL, Camera::RenderScreenThreadFunction, NULL);
+		//pthread_create(&_inThread, NULL, Camera::InputThreadFunction, NULL);
+		RenderScreenThreadFunction();
+	#endif
 }
 
 Point Camera::AbsoluteToRelativeCoords(Point absoluteCoords)
@@ -279,10 +295,14 @@ void Camera::RenderLandscape() {
 
 Camera::~Camera()
 {
-	_screenThread->join();
-	delete _screenThread;
-	_inThread->join();
-	delete _inThread;
+
+	#ifdef WIN32
+		_screenThread->join();
+		delete _screenThread;
+		_inThread->join();
+		delete _inThread;
+	#else
+	#endif
 	delete PlayerPanel;
 	delete SightingsPanel;
 	delete SightingsBorderedPanel;

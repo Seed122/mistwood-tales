@@ -8,7 +8,7 @@
 
 World::World()
 {
-	CurrentMap = new Map("map.txt");
+	CurrentMap = new Map("/home/seed/Code/mistwood-tales/build/src/MistwoodTales.Game/map.txt");
 	initPlayer();
 	initNPCs();
 }
@@ -56,6 +56,10 @@ Sighting World::GetSighting(const Point& point)
 		}
 	}
 	auto item = CurrentMap->GetItem(point);
+	if(0==item.Symbol){
+		res.Description = L"Похоже, это NullReference";
+		return res;
+	}
 	switch (item.Symbol) {
 	case L'≈':
 		res.Description = L"Похоже, это вода";

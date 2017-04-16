@@ -265,3 +265,7 @@ CMakeFiles/
 build/
 CMakeCache.txt
 cmake_install.cmake
+Makefile
+*.a
+fireworks
+PDCurses

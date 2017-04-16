@@ -45,7 +45,7 @@ private:
 	list<Sighting> Sightings;
 	thread * _screenThread;
 	thread * _inThread;
-	// запрещаем копирование
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	Camera(Camera const&) = delete;
 	Camera& operator= (Camera const&) = delete;
 };
