@@ -45,7 +45,8 @@ namespace MistwoodTales.Game.Client.RLNet.Scheduling
                 {
                     // TODO: This should be path.StepForward() but there is a bug in RogueSharp V3
                     // The bug is that a Path returned from a PathFinder does not include the source Cell
-                    commandSystem.MoveMonster(_monster, _agroPath.Steps.First());
+                    
+                    commandSystem.MonsterMoveOrAttack(_monster, _agroPath.Steps.First());
                 }
                 catch (NoMoreStepsException)
                 {

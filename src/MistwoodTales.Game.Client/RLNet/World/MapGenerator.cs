@@ -91,8 +91,8 @@ namespace MistwoodTales.Game.Client.RLNet.World
             PlacePlayer();
 
             // After the existing PlacePlayer() call, add another call to PlaceMonsters()
-            //PlaceMonsters();
-            PlaceOneMonster();
+            PlaceMonsters();
+            //PlaceOneMonster();
 
 
             return _map;

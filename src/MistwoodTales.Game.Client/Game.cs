@@ -73,7 +73,8 @@ namespace MistwoodTales.Game.Client
                 Width = _screenWidth,
                 Height = _screenHeight,
                 Title = consoleTitle,
-                WindowBorder = RLWindowBorder.Fixed
+                WindowBorder = RLWindowBorder.Fixed,
+                
             };
 
             _rootConsole = new RLRootConsole(s);
@@ -100,14 +101,14 @@ namespace MistwoodTales.Game.Client
 
             if (_scheduleMode == ScheduleMode.Timer)
             {
-                _scheduleTimer = new Timer(100);
+                _scheduleTimer = new Timer(150);
                 _scheduleTimer.Elapsed += (o, e) => {
                     CommandSystem.Act();
                 };
                 _scheduleTimer.Start();
             }
 
-            _rootConsole.Run();
+            _rootConsole.Run(10);
             CommandSystem.RedrawNeeded = true;
         }
 

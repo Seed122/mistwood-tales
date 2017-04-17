@@ -30,7 +30,7 @@ namespace MistwoodTales.Game.Client.RLNet.Scheduling
         {
             if (DestinationPath == null)
                 return false;
-            if (DestinationPath.CurrentStep.Equals(DestinationPath.End))
+            if (DestinationPath.End.X == _actor.X && DestinationPath.End.Y == _actor.Y)
             {
                 DestinationPath = null;
                 return false;

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using MistwoodTales.Game.Client.RLNet.Entities;
 using MistwoodTales.Game.Client.RLNet.Scheduling;
 
 namespace MistwoodTales.Game.Client.RLNet.Systems
@@ -30,40 +31,61 @@ namespace MistwoodTales.Game.Client.RLNet.Systems
                 _scheduleables[key].Add(scheduleable);
             }
         }
+        // Add a new object to the schedule 
+        // Place it at the current time plus the object's Time property.
+        public void Add(IEnumerable<IScheduleable> scheduleableToAdd)
+        {
+            foreach (var scheduleable in scheduleableToAdd)
+            {
+                Add(scheduleable);
+            }
+        }
 
         // Remove a specific object from the schedule.
         // Useful for when an monster is killed to remove it before it's action comes up again.
         public void Remove(IScheduleable scheduleable)
         {
-            //            KeyValuePair<int, List<IScheduleable>> scheduleableListFound
-            //              = new KeyValuePair<int, List<IScheduleable>>(-1, null);
-            //KeyValuePair<int, List<IScheduleable>> scheduleableListFound;
             foreach (var scheduleablesList in _scheduleables)
             {
-                lock (scheduleablesList.Value)
+                if (scheduleablesList.Value.Contains(scheduleable))
                 {
-                    if (scheduleablesList.Value.Contains(scheduleable))
+                    var scheduleableListFound = scheduleablesList;
+                    scheduleableListFound.Value.Remove(scheduleable);
+                    if (scheduleableListFound.Value.Count <= 0)
                     {
-                        var scheduleableListFound = scheduleablesList;
-                        scheduleableListFound.Value.Remove(scheduleable);
-                        if (scheduleableListFound.Value.Count <= 0)
-                        {
-                            _scheduleables.Remove(scheduleableListFound.Key);
-                        }
-                        break;
+                        _scheduleables.Remove(scheduleableListFound.Key);
                     }
+                    break;
                 }
+            }
+        }
+        // Remove a specific object from the schedule.
+        // Useful for when an monster is killed to remove it before it's action comes up again.
+        public void Remove(IEnumerable<IScheduleable> scheduleableToRemove)
+        {
+            foreach (var scheduleable in scheduleableToRemove)
+            foreach (var scheduleablesList in _scheduleables)
+            {
+                if (!scheduleablesList.Value.Contains(scheduleable))
+                        continue;
+                var scheduleableListFound = scheduleablesList;
+                scheduleableListFound.Value.Remove(scheduleable);
+                if (scheduleableListFound.Value.Count <= 0)
+                {
+                    _scheduleables.Remove(scheduleableListFound.Key);
+                }
+                break;
             }
         }
 
         // Get the next object whose turn it is from the schedule. Advance time if necessary
-        public IScheduleable Get()
+        public IList<IScheduleable> Get()
         {
             var firstScheduleableGroup = _scheduleables.First();
-            var firstScheduleable = firstScheduleableGroup.Value.First();
-            Remove(firstScheduleable);
+            var scheduleables = firstScheduleableGroup.Value.ToList();
+            Remove(scheduleables);
             _time = firstScheduleableGroup.Key;
-            return firstScheduleable;
+            return scheduleables;
         }
 
         // Get the current time (turn) for the schedule
@@ -77,6 +99,17 @@ namespace MistwoodTales.Game.Client.RLNet.Systems
         {
             _time = 0;
             _scheduleables.Clear();
+        }
+
+        public void RunActions()
+        {
+            var scheduleables = Get();
+            foreach (var scheduleable in scheduleables)
+            {
+                var actor = scheduleable as Actor;
+                actor?.PerformAction(Game.CommandSystem);
+            }
+            Add(scheduleables);
         }
     }
 }

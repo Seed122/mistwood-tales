@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using MistwoodTales.Game.Client.RLNet.Entities;
 using MistwoodTales.Game.Client.RLNet.Scheduling;
 using RogueSharp;
@@ -181,24 +182,30 @@ namespace MistwoodTales.Game.Client.RLNet.Systems
 
         public void ActivateActors()
         {
-            IScheduleable scheduleable = Game.SchedulingSystem.Get();
-            if (!(scheduleable is Actor))
-                return;
-            var actor = scheduleable as Actor;
-            actor.PerformAction(this);
-            Game.SchedulingSystem.Add(actor);
+            Game.SchedulingSystem.RunActions();
+
         }
 
-        public void MoveMonster(Monster monster, Cell cell)
+        public void MonsterMoveOrAttack(Monster monster, Cell cell)
         {
-            if (!Game.DungeonMap.SetActorPosition(monster, cell.X, cell.Y))
+            var player = Game.Player;
+            if (cell.X == player.X && cell.Y == player.Y // targeting player
+                && PlayerIsClose(monster.X, monster.Y))
             {
-                if (Game.Player.X == cell.X && Game.Player.Y == cell.Y)
-                {
-                    Attack(monster, Game.Player);
-                }
+                Attack(monster, Game.Player);
             }
-            RedrawNeeded = true;
+            else if (Game.DungeonMap.SetActorPosition(monster, cell.X, cell.Y))
+            {
+                RedrawNeeded = true;
+            }
+        }
+
+        private bool PlayerIsClose(int x, int y)
+        {
+            var player = Game.Player;
+            int dx = Math.Abs(player.X - x);
+            int dy = Math.Abs(player.Y - y);
+            return dx <= 1 && dy <= 1;
         }
 
         public void SetPlayerPath(int x, int y)
@@ -210,6 +217,9 @@ namespace MistwoodTales.Game.Client.RLNet.Systems
                 || y > map.Height - 1)
                 return;
             var player = Game.Player;
+
+            if (x == player.X && y == player.Y) 
+                return;
             var destCell = map.GetCell(x, y);
             if (!destCell.IsInFov
                 || !destCell.IsWalkable)
