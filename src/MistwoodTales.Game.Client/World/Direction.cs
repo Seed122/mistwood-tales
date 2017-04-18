@@ -1,4 +1,4 @@
-﻿namespace MistwoodTales.Game.Client.RLNet.World
+﻿namespace MistwoodTales.Game.Client.World
 {
     public enum Direction
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using ConsoleGL;
 
-namespace MistwoodTales.Game.Client.RLNet.Base
+namespace MistwoodTales.Game.Client.Base
 {
     public class MessageLog
     {

@@ -1,4 +1,4 @@
-﻿namespace MistwoodTales.Game.Client.RLNet.Scheduling
+﻿namespace MistwoodTales.Game.Client.Scheduling
 {
     enum ScheduleMode
     {

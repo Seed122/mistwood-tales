@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using MistwoodTales.Game.Client.RLNet.Scheduling;
+using MistwoodTales.Game.Client.Scheduling;
 
-namespace MistwoodTales.Game.Client.RLNet.Entities
+namespace MistwoodTales.Game.Client.Entities
 {
     public interface IActor
     {

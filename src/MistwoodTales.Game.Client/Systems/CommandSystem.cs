@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Text;
-using MistwoodTales.Game.Client.RLNet.Entities;
-using MistwoodTales.Game.Client.RLNet.Scheduling;
+using MistwoodTales.Game.Client.Entities;
 using RogueSharp;
 using RogueSharp.DiceNotation;
 
-namespace MistwoodTales.Game.Client.RLNet.Systems
+namespace MistwoodTales.Game.Client.Systems
 {
     public class CommandSystem
     {
-        public static bool RedrawNeeded { get; set; }
 
         // Return value is true if the player was able to move
         // false when the player couldn't move, such as trying to move into a wall
@@ -88,7 +86,7 @@ namespace MistwoodTales.Game.Client.RLNet.Systems
         {
             int hits = 0;
 
-            attackMessage.AppendFormat("{0} attacks {1} and rolls: ", attacker.Name, defender.Name);
+            attackMessage.AppendFormat("{0} атакует {1} и выбрасывает: ", attacker.Name, defender.Name);
 
             // Roll a number of 100-sided dice equal to the Attack value of the attacking actor
             DiceExpression attackDice = new DiceExpression().Dice(attacker.Attack, 100);
@@ -105,7 +103,7 @@ namespace MistwoodTales.Game.Client.RLNet.Systems
                 }
             }
 
-            RedrawNeeded = true;
+            Game.RenderSystem.RedrawNeeded = true;
             return hits;
         }
 
@@ -116,8 +114,8 @@ namespace MistwoodTales.Game.Client.RLNet.Systems
 
             if (hits > 0)
             {
-                attackMessage.AppendFormat("scoring {0} hits.", hits);
-                defenseMessage.AppendFormat("  {0} defends and rolls: ", defender.Name);
+                attackMessage.AppendFormat("нанося ударов: {0}", hits);
+                defenseMessage.AppendFormat("  {0} защищается и выбраывает: ", defender.Name);
 
                 // Roll a number of 100-sided dice equal to the Defense value of the defendering actor
                 DiceExpression defenseDice = new DiceExpression().Dice(defender.Defense, 100);
@@ -133,13 +131,13 @@ namespace MistwoodTales.Game.Client.RLNet.Systems
                         blocks++;
                     }
                 }
-                defenseMessage.AppendFormat("resulting in {0} blocks.", blocks);
+                defenseMessage.AppendFormat("блокируя {0}.", blocks);
             }
             else
             {
-                attackMessage.Append("and misses completely.");
+                attackMessage.Append("полностью промахнувшись.");
             }
-            RedrawNeeded = true;
+            Game.RenderSystem.RedrawNeeded = true;
             return blocks;
         }
 
@@ -150,7 +148,7 @@ namespace MistwoodTales.Game.Client.RLNet.Systems
             {
                 defender.Health = defender.Health - damage;
 
-                Game.MessageLog.Add($"  {defender.Name} was hit for {damage} damage");
+                Game.MessageLog.Add($"  {defender.Name} получил {damage} урона");
 
                 if (defender.Health <= 0)
                 {
@@ -159,9 +157,9 @@ namespace MistwoodTales.Game.Client.RLNet.Systems
             }
             else
             {
-                Game.MessageLog.Add($"  {defender.Name} blocked all damage");
+                Game.MessageLog.Add($"  {defender.Name} блокировал весь урон");
             }
-            RedrawNeeded = true;
+            Game.RenderSystem.RedrawNeeded = true;
         }
 
         // Remove the defender from the map and add some messages upon death.
@@ -169,15 +167,15 @@ namespace MistwoodTales.Game.Client.RLNet.Systems
         {
             if (defender is Player)
             {
-                Game.MessageLog.Add($"  {defender.Name} was killed, GAME OVER MAN!");
+                Game.MessageLog.Add($"  {defender.Name} убит, GAME OVER!");
             }
             else if (defender is Monster)
             {
                 Game.CurrentMap.RemoveMonster((Monster)defender);
 
-                Game.MessageLog.Add($"  {defender.Name} died and dropped {defender.Gold} gold");
+                Game.MessageLog.Add($"  {defender.Name} погибает, и из него сыпется {defender.Gold} золота");
             }
-            RedrawNeeded = true;
+            Game.RenderSystem.RedrawNeeded = true;
         }
 
         public void ActivateActors()
@@ -196,7 +194,7 @@ namespace MistwoodTales.Game.Client.RLNet.Systems
             }
             else if (Game.CurrentMap.SetActorPosition(monster, cell.X, cell.Y))
             {
-                RedrawNeeded = true;
+                Game.RenderSystem.RedrawNeeded = true;
             }
         }
 

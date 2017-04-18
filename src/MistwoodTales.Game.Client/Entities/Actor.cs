@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using MistwoodTales.Game.Client.RLNet.Base;
-using MistwoodTales.Game.Client.RLNet.Scheduling;
-using MistwoodTales.Game.Client.RLNet.Systems;
 using ConsoleGL;
+using MistwoodTales.Game.Client.Base;
+using MistwoodTales.Game.Client.Scheduling;
+using MistwoodTales.Game.Client.Systems;
 using RogueSharp;
 
-namespace MistwoodTales.Game.Client.RLNet.Entities
+namespace MistwoodTales.Game.Client.Entities
 {
     public class Actor : IActor, IDrawable, IScheduleable
     {

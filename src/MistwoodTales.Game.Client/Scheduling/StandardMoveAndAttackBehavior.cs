@@ -1,10 +1,10 @@
 ﻿using System.Linq;
-using MistwoodTales.Game.Client.RLNet.Entities;
-using MistwoodTales.Game.Client.RLNet.Systems;
-using MistwoodTales.Game.Client.RLNet.World;
+using MistwoodTales.Game.Client.Entities;
+using MistwoodTales.Game.Client.Systems;
+using MistwoodTales.Game.Client.World;
 using RogueSharp;
 
-namespace MistwoodTales.Game.Client.RLNet.Scheduling
+namespace MistwoodTales.Game.Client.Scheduling
 {
     public class StandardMoveAndAttackBehavior : IBehavior
     {
@@ -33,7 +33,7 @@ namespace MistwoodTales.Game.Client.RLNet.Scheduling
                 monsterFov.ComputeFov(_monster.X, _monster.Y, _monster.LightRadius, true);
                 if (monsterFov.IsInFov(player.X, player.Y))
                 {
-                    Game.MessageLog.Add($"{_monster.Name} is eager to fight {player.Name}");
+                    // Game.MessageLog.Add($"{_monster.Name} is eager to fight {player.Name}");
                     _monster.TurnsAlerted = 1;
                 }
             }
@@ -50,7 +50,7 @@ namespace MistwoodTales.Game.Client.RLNet.Scheduling
                 }
                 catch (NoMoreStepsException)
                 {
-                    Game.MessageLog.Add($"{_monster.Name} growls in frustration");
+                    // Game.MessageLog.Add($"{_monster.Name} growls in frustration");
                 }
 
                 _monster.TurnsAlerted++;
@@ -85,7 +85,7 @@ namespace MistwoodTales.Game.Client.RLNet.Scheduling
                 // The monster can see the player, but cannot find a path to him
                 // This could be due to other monsters blocking the way
                 // Add a message to the message log that the monster is waiting
-                Game.MessageLog.Add($"{monster.Name} waits for a turn");
+                // Game.MessageLog.Add($"{monster.Name} waits for a turn");
             }
             finally
             {

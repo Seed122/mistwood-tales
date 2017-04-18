@@ -1,7 +1,6 @@
 ﻿using System.IO;
-using RogueSharp;
 
-namespace MistwoodTales.Game.Client.RLNet.World
+namespace MistwoodTales.Game.Client.World
 {
     public static class MapLoader
     {

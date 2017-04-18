@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MistwoodTales.Game.Client.RLNet.Base;
-using MistwoodTales.Game.Client.RLNet.Entities;
 using ConsoleGL;
+using MistwoodTales.Game.Client.Base;
+using MistwoodTales.Game.Client.Entities;
 using RogueSharp;
 
-namespace MistwoodTales.Game.Client.RLNet.World
+namespace MistwoodTales.Game.Client.World
 {
     public class MistwoodMap: Map
     {

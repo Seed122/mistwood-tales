@@ -1,8 +1,8 @@
-﻿using MistwoodTales.Game.Client.RLNet.Entities;
-using MistwoodTales.Game.Client.RLNet.Systems;
+﻿using MistwoodTales.Game.Client.Entities;
+using MistwoodTales.Game.Client.Systems;
 using RogueSharp;
 
-namespace MistwoodTales.Game.Client.RLNet.Scheduling
+namespace MistwoodTales.Game.Client.Scheduling
 {
     class PathMoveBehavior: IBehavior
     {

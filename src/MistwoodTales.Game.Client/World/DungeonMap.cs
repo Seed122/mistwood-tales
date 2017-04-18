@@ -1,11 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using MistwoodTales.Game.Client.RLNet.Base;
-using MistwoodTales.Game.Client.RLNet.Entities;
-using ConsoleGL;
 using RogueSharp;
 
-namespace MistwoodTales.Game.Client.RLNet.World
+namespace MistwoodTales.Game.Client.World
 {
     public class DungeonMap : MistwoodMap
     {

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using MistwoodTales.Game.Client.RLNet.Entities;
-using MistwoodTales.Game.Client.RLNet.Scheduling;
+using MistwoodTales.Game.Client.Entities;
+using MistwoodTales.Game.Client.Scheduling;
 
-namespace MistwoodTales.Game.Client.RLNet.Systems
+namespace MistwoodTales.Game.Client.Systems
 {
     class SchedulingSystem
     {

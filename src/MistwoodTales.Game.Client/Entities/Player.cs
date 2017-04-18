@@ -1,9 +1,9 @@
-﻿using MistwoodTales.Game.Client.RLNet.Base;
-using MistwoodTales.Game.Client.RLNet.Scheduling;
-using ConsoleGL;
+﻿using ConsoleGL;
+using MistwoodTales.Game.Client.Base;
+using MistwoodTales.Game.Client.Scheduling;
 using RogueSharp;
 
-namespace MistwoodTales.Game.Client.RLNet.Entities
+namespace MistwoodTales.Game.Client.Entities
 {
     public class Player: Actor
     {

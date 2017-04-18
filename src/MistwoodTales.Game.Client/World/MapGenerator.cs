@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
-using MistwoodTales.Game.Client.RLNet.Entities;
+using MistwoodTales.Game.Client.Entities;
 using RogueSharp;
 using RogueSharp.DiceNotation;
 
-namespace MistwoodTales.Game.Client.RLNet.World
+namespace MistwoodTales.Game.Client.World
 {
     public class MapGenerator
     {

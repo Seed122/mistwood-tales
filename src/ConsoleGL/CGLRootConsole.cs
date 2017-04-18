@@ -104,23 +104,23 @@ namespace ConsoleGL
         private void Init(CGLSettings settings)
         {
             if (settings == null)
-                throw new ArgumentNullException("settings");
+                throw new ArgumentNullException(nameof(settings));
             if (settings.BitmapFile == null)
-                throw new ArgumentNullException("BitmapFile");
+                throw new ArgumentNullException(nameof(settings.BitmapFile));
             if (settings.Title == null)
-                throw new ArgumentNullException("Title");
+                throw new ArgumentNullException(nameof(settings.Title));
             if (settings.Width <= 0)
-                throw new ArgumentException("Width cannot be zero or less");
+                throw new ArgumentException("Width cannot be zero or less", nameof(settings.Width));
             if (settings.Height <= 0)
-                throw new ArgumentException("Height cannot be zero or less");
+                throw new ArgumentException("Height cannot be zero or less", nameof(settings.Height));
             if (settings.CharWidth <= 0)
-                throw new ArgumentException("CharWidth cannot be zero or less");
+                throw new ArgumentException("CharWidth cannot be zero or less", nameof(settings.CharWidth));
             if (settings.CharHeight <= 0)
-                throw new ArgumentException("CharHeight cannot be zero or less");
+                throw new ArgumentException("CharHeight cannot be zero or less", nameof(settings.CharHeight));
             if (settings.Scale <= 0)
-                throw new ArgumentException("Scale cannot be zero or less");
+                throw new ArgumentException("Scale cannot be zero or less", nameof(settings.Scale));
             if (System.IO.File.Exists(settings.BitmapFile) == false)
-                throw new System.IO.FileNotFoundException("cannot find bitmapFile");
+                throw new System.IO.FileNotFoundException("cannot find bitmapFile", settings.BitmapFile);
 
 
 
@@ -159,12 +159,12 @@ namespace ConsoleGL
         void window_Load(object sender, EventArgs e)
         {
             window.VSync = VSyncMode.On;
-            if (OnLoad != null) OnLoad(this, e);
+            OnLoad?.Invoke(this, e);
         }
 
         void window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (OnClosing != null) OnClosing(this, e);
+            OnClosing?.Invoke(this, e);
         }
 
         /// <summary>
@@ -186,7 +186,7 @@ namespace ConsoleGL
         public void LoadBitmap(string bitmapFile, int charWidth, int charHeight)
         {
             if (bitmapFile == null)
-                throw new ArgumentNullException("bitmapFile");
+                throw new ArgumentNullException(nameof(bitmapFile));
             if (charWidth <= 0)
                 throw new ArgumentException("charWidth cannot be zero or less");
             if (charHeight <= 0)
@@ -335,9 +335,32 @@ namespace ConsoleGL
         /// <summary>
         /// Opens the window and begins the game loop.
         /// </summary>
-        public void Run(double fps = 30d)
+        public void Run(double? framesPerSecond, double? updatesPerSecond)
         {
-            window.Run(fps);
+
+            if (framesPerSecond.HasValue)
+            {
+                if (updatesPerSecond.HasValue)
+                {
+                    window.Run(framesPerSecond.Value, updatesPerSecond.Value);
+                }
+                else
+                {
+                    window.Run(framesPerSecond.Value);
+                }
+            }
+            else
+            {
+                if (updatesPerSecond.HasValue)
+                {
+                    throw new ArgumentNullException(nameof(framesPerSecond));
+                }
+                else
+                {
+                    window.Run();
+                }
+            }
+
         }
 
         /// <summary>
@@ -381,14 +404,12 @@ namespace ConsoleGL
 
         private void window_UpdateFrame(object sender, FrameEventArgs e)
         {
-            if (Update != null)
-                Update(this, new UpdateEventArgs(e.Time));
+            Update?.Invoke(this, new UpdateEventArgs(e.Time));
         }
 
         private void window_RenderFrame(object sender, FrameEventArgs e)
         {
-            if (Render != null)
-                Render(this, new UpdateEventArgs(e.Time));
+            Render?.Invoke(this, new UpdateEventArgs(e.Time));
         }
 
         private void window_Closed(object sender, EventArgs e)
@@ -422,9 +443,16 @@ namespace ConsoleGL
 
                     int character = cells[ix, iy].character;
 
+                    if (character >= 1040 && character <= 1103)
+                        // if Cyrillic symbol
+                        // offset after start for this cyrillic font map is 192
+                        character = character - 1040 + 192;
+                    else if (character == 1105) // ё
+                        character = 1077;
+                    else if (character == 1125) // Ё
+                        character = 1045;
                     float charX = (float)(character % charsPerRow) * charU;
                     float charY = (float)(character / charsPerRow) * charV;
-
                     texVertices[i].X = charX + charU;
                     texVertices[i].Y = charY;
                     texVertices[i + 1].X = charX;

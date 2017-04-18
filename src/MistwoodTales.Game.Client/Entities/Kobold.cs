@@ -1,7 +1,7 @@
-﻿using MistwoodTales.Game.Client.RLNet.Base;
+﻿using MistwoodTales.Game.Client.Base;
 using RogueSharp.DiceNotation;
 
-namespace MistwoodTales.Game.Client.RLNet.Entities
+namespace MistwoodTales.Game.Client.Entities
 {
     class Kobold: Monster
     {

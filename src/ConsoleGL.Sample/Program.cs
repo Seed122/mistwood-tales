@@ -26,7 +26,7 @@ namespace ConsoleGL.Sample
             rootConsole.Update += rootConsole_Update;
             rootConsole.Render += rootConsole_Render;
             rootConsole.OnLoad += rootConsole_OnLoad;
-            rootConsole.Run();
+            rootConsole.Run(null, null);
 
         }
 
