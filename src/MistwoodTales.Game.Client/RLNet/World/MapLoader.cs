@@ -5,12 +5,12 @@ namespace MistwoodTales.Game.Client.RLNet.World
 {
     public static class MapLoader
     {
-        public static Map Load(string filePath)
+        public static MistwoodMap Load(string filePath)
         {
             using (var fs = File.OpenRead(filePath))
             using (var reader = new StreamReader(fs))
             {
-                var res = new Map();
+                var res = new LocationMap();
                 
                 var line = reader.ReadLine();
                 if (string.IsNullOrEmpty(line))
@@ -31,8 +31,11 @@ namespace MistwoodTales.Game.Client.RLNet.World
 
                     var symbol = parts[9][0];
                     var canWalk = int.Parse(parts[10]) == 1;
-                    res.SetCellProperties(j, i, true, canWalk);
+                    res.SetCellProperties(i, j, true, canWalk);
                     //Cell t;
+                    ++i;
+                    j += i / res.Width;
+                    i = i % res.Width;
 
                 }
                 return res;

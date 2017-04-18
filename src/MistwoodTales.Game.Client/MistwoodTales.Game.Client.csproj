@@ -21,6 +21,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>7</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -61,6 +63,7 @@
     <Compile Include="RLNet\Scheduling\PathMoveBehavior.cs" />
     <Compile Include="RLNet\Scheduling\ScheduleMode.cs" />
     <Compile Include="RLNet\Systems\CommandSystem.cs" />
+    <Compile Include="RLNet\Systems\GeoSystem.cs" />
     <Compile Include="RLNet\World\Direction.cs" />
     <Compile Include="RLNet\Entities\IActor.cs" />
     <Compile Include="RLNet\Entities\IDrawable.cs" />
@@ -76,6 +79,7 @@
     <Compile Include="RLNet\World\DungeonMap.cs" />
     <Compile Include="Legacy\Entity.cs" />
     <Compile Include="Legacy\Map.cs" />
+    <Compile Include="RLNet\World\LocationMap.cs" />
     <Compile Include="RLNet\World\MapGenerator.cs" />
     <Compile Include="Legacy\MapItem.cs" />
     <Compile Include="Legacy\MoveableEntity.cs" />
@@ -86,6 +90,7 @@
     <Compile Include="RLNet\Base\Swatch.cs" />
     <Compile Include="Legacy\World.cs" />
     <Compile Include="RLNet\World\MapLoader.cs" />
+    <Compile Include="RLNet\World\MistwoodMap.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

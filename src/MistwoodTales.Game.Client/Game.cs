@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Timers;
 using MistwoodTales.Game.Client.Legacy;
 using MistwoodTales.Game.Client.RLNet.Base;
@@ -74,7 +75,6 @@ namespace MistwoodTales.Game.Client
                 Height = _screenHeight,
                 Title = consoleTitle,
                 WindowBorder = RLWindowBorder.Fixed,
-                
             };
 
             _rootConsole = new RLRootConsole(s);
@@ -90,13 +90,15 @@ namespace MistwoodTales.Game.Client
             // Begin RLNET's game loop
             Player = new Player();
             MapGenerator mapGenerator = new MapGenerator(_mapWidth, _mapHeight, 20, 13, 7);
-            DungeonMap = mapGenerator.CreateMap();
-            DungeonMap.UpdatePlayerFieldOfView();
+
+            //CurrentMap = mapGenerator.CreateMap();
+            CurrentMap = MapLoader.Load(@"..\..\..\MistwoodTales.Game\map.txt");
+
+            CurrentMap.AddPlayer(Player);
+            CurrentMap.UpdatePlayerFieldOfView();
             
             // Create a new MessageLog and print the random seed used to generate the level
             MessageLog = new MessageLog();
-            MessageLog.Add("The rogue arrives on level 1");
-            MessageLog.Add($"Level created with seed '{seed}'");
 
 
             if (_scheduleMode == ScheduleMode.Timer)
@@ -114,7 +116,7 @@ namespace MistwoodTales.Game.Client
 
         public static DotNetRandom Random { get; set; }
 
-        public static DungeonMap DungeonMap { get; set; }
+        public static MistwoodMap CurrentMap { get; set; }
         public static SchedulingSystem SchedulingSystem { get; private set; }
 
         // Event handler for RLNET's Update event
@@ -152,18 +154,13 @@ namespace MistwoodTales.Game.Client
             bool leftClicked = _rootConsole.Mouse.LeftPressed;
             if (leftClicked)
             {
-                
                 var mouseX = _rootConsole.Mouse.X;
                 var mouseY = _rootConsole.Mouse.Y;
-                var mob = DungeonMap.GetMonsterAt(mouseX, mouseY);
-                if (mob == null)
-                {
-                    CommandSystem.SetPlayerPath(mouseX, mouseY);
-                }
+                var mobs = CurrentMap.GetMonstersAt(mouseX, mouseY);
+                if (mobs.Any())
+                    CommandSystem.Attack(Player, mobs.First());
                 else
-                {
-                    CommandSystem.Attack(Player, mob);
-                }
+                    CommandSystem.SetPlayerPath(mouseX, mouseY);
             }
         }
 
@@ -196,8 +193,8 @@ namespace MistwoodTales.Game.Client
             //_inventoryConsole.SetBackColor(0, 0, _inventoryWidth, _inventoryHeight, Swatch.DbWood);
             //_inventoryConsole.Print(1, 1, "Inventory", Colors.TextHeading);
             MessageLog.Draw(_messageConsole);
-            DungeonMap.Draw(_mapConsole, _statConsole);
-            Player.Draw(_mapConsole, DungeonMap);
+            CurrentMap.Draw(_mapConsole, _statConsole);
+            Player.Draw(_mapConsole, CurrentMap);
             Player.DrawStats(_statConsole);
             // Blit the sub consoles to the root console in the correct locations
             RLConsole.Blit(_mapConsole, 0, 0, _mapWidth, _mapHeight, _rootConsole, 0, 0);

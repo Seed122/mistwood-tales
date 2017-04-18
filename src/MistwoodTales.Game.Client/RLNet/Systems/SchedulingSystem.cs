@@ -81,6 +81,8 @@ namespace MistwoodTales.Game.Client.RLNet.Systems
         // Get the next object whose turn it is from the schedule. Advance time if necessary
         public IList<IScheduleable> Get()
         {
+            if(!_scheduleables.Any())
+                return new List<IScheduleable>();
             var firstScheduleableGroup = _scheduleables.First();
             var scheduleables = firstScheduleableGroup.Value.ToList();
             Remove(scheduleables);

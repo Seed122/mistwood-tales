@@ -89,7 +89,7 @@ namespace MistwoodTales.Game.Client.RLNet.Entities
         //            break;
         //        }
         //    }
-        //    return Game.DungeonMap.SetActorPosition(this, x, y);
+        //    return Game.CurrentMap.SetActorPosition(this, x, y);
         //}
     }
 }

@@ -20,9 +20,9 @@ namespace MistwoodTales.Game.Client.RLNet.Scheduling
 
         public bool Act(CommandSystem commandSystem)
         {
-            DungeonMap dungeonMap = Game.DungeonMap;
+            var map = Game.CurrentMap;
             Player player = Game.Player;
-            FieldOfView monsterFov = new FieldOfView(dungeonMap);
+            FieldOfView monsterFov = new FieldOfView(map);
 
             // If the monster has not been alerted, compute a field-of-view 
             // Use the monster's LightRadius value for the distance in the FoV check
@@ -40,7 +40,7 @@ namespace MistwoodTales.Game.Client.RLNet.Scheduling
 
             if (_monster.TurnsAlerted.HasValue)
             {
-                InitAgroPath(dungeonMap, _monster, player);
+                InitAgroPath(map, _monster, player);
                 try
                 {
                     // TODO: This should be path.StepForward() but there is a bug in RogueSharp V3
@@ -66,7 +66,7 @@ namespace MistwoodTales.Game.Client.RLNet.Scheduling
             return true;
         }
 
-        private void InitAgroPath(DungeonMap dungeonMap, Actor monster, Actor player)
+        private void InitAgroPath(MistwoodMap dungeonMap, Actor monster, Actor player)
         {
             try
             {

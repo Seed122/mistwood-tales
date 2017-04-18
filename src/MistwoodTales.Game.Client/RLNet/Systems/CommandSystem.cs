@@ -46,12 +46,12 @@ namespace MistwoodTales.Game.Client.RLNet.Systems
         //            }
         //    }
 
-        //    if (Game.DungeonMap.SetActorPosition(Game.Player, x, y))
+        //    if (Game.CurrentMap.SetActorPosition(Game.Player, x, y))
         //    {
         //        RedrawNeeded = true;
         //        return true;
         //    }
-        //    Monster monster = Game.DungeonMap.GetMonsterAt(x, y);
+        //    Monster monster = Game.CurrentMap.GetMonsterAt(x, y);
 
         //    if (monster != null)
         //    {
@@ -173,7 +173,7 @@ namespace MistwoodTales.Game.Client.RLNet.Systems
             }
             else if (defender is Monster)
             {
-                Game.DungeonMap.RemoveMonster((Monster)defender);
+                Game.CurrentMap.RemoveMonster((Monster)defender);
 
                 Game.MessageLog.Add($"  {defender.Name} died and dropped {defender.Gold} gold");
             }
@@ -194,7 +194,7 @@ namespace MistwoodTales.Game.Client.RLNet.Systems
             {
                 Attack(monster, Game.Player);
             }
-            else if (Game.DungeonMap.SetActorPosition(monster, cell.X, cell.Y))
+            else if (Game.CurrentMap.SetActorPosition(monster, cell.X, cell.Y))
             {
                 RedrawNeeded = true;
             }
@@ -210,7 +210,7 @@ namespace MistwoodTales.Game.Client.RLNet.Systems
 
         public void SetPlayerPath(int x, int y)
         {
-            var map = Game.DungeonMap;
+            var map = Game.CurrentMap;
             if (x < 0
                 || y < 0
                 || x > map.Width - 1

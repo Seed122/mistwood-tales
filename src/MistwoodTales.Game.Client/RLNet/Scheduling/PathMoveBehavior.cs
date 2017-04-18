@@ -41,7 +41,7 @@ namespace MistwoodTales.Game.Client.RLNet.Scheduling
                     ? DestinationPath.Start
                     : DestinationPath.StepForward();
                 _isMoving = true;
-                bool moveResult = Game.DungeonMap.SetActorPosition(_actor, cell.X, cell.Y);
+                bool moveResult = Game.CurrentMap.SetActorPosition(_actor, cell.X, cell.Y);
                 if (!moveResult)
                 {
                     DestinationPath = null;

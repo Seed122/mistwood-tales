@@ -90,8 +90,8 @@ namespace MistwoodTales.Game.Client.RLNet.World
 
             PlacePlayer();
 
-            // After the existing PlacePlayer() call, add another call to PlaceMonsters()
-            PlaceMonsters();
+            // After the existing PlacePlayer() call, add another call to GenerateMonsters()
+            GenerateMonsters();
             //PlaceOneMonster();
 
 
@@ -115,7 +115,7 @@ namespace MistwoodTales.Game.Client.RLNet.World
             }
         }
 
-        private void PlaceMonsters()
+        private void GenerateMonsters()
         {
             foreach (var room in _map.Rooms)
             {

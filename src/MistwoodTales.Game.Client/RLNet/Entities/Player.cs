@@ -14,8 +14,8 @@ namespace MistwoodTales.Game.Client.RLNet.Entities
             Name = "Gatmeat";
             Color = Colors.Player;
             Symbol = '@';
-            X = 10;
-            Y = 10;
+            X = 20;
+            Y = 20;
             Speed = 6;
             Attack = 8;
             AttackChance = 20;
