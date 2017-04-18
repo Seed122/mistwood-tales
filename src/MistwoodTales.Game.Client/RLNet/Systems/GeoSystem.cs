@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MistwoodTales.Game.Client.RLNet.Base;
 using MistwoodTales.Game.Client.RLNet.Entities;
-using RLNET;
+using ConsoleGL;
 using RogueSharp;
 
 namespace MistwoodTales.Game.Client.RLNet.Systems

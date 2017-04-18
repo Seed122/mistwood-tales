@@ -1,7 +1,7 @@
 ﻿using System;
 using MistwoodTales.Game.Client.RLNet.Base;
 using MistwoodTales.Game.Client.RLNet.Scheduling;
-using RLNET;
+using ConsoleGL;
 
 namespace MistwoodTales.Game.Client.RLNet.Entities
 {
@@ -12,7 +12,7 @@ namespace MistwoodTales.Game.Client.RLNet.Entities
             Behaviors.Add(new StandardMoveAndAttackBehavior(this));
         }
 
-        public void DrawStats(RLConsole statConsole, int position)
+        public void DrawStats(CGLConsole statConsole, int position)
         {
             // Start at Y=13 which is below the player stats.
             // Multiply the position by 2 to leave a space between each stat

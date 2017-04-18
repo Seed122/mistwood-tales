@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MistwoodTales.Game.Client.RLNet.Base;
 using MistwoodTales.Game.Client.RLNet.Entities;
-using RLNET;
+using ConsoleGL;
 using RogueSharp;
 
 namespace MistwoodTales.Game.Client.RLNet.World
@@ -31,7 +31,7 @@ namespace MistwoodTales.Game.Client.RLNet.World
 
         // The Draw method will be called each time the map is updated
         // It will render all of the symbols/colors for each cell to the map sub console
-        public virtual void Draw(RLConsole mapConsole, RLConsole statConsole)
+        public virtual void Draw(CGLConsole mapConsole, CGLConsole statConsole)
         {
             mapConsole.Clear();
             foreach (Cell cell in GetAllCells())
@@ -68,7 +68,7 @@ namespace MistwoodTales.Game.Client.RLNet.World
         // A helper method for setting the IsWalkable property on a Cell
         public void SetIsWalkable(int x, int y, bool isWalkable)
         {
-            Cell cell = GetCell(x, y);
+            ICell cell = GetCell(x, y);
             SetCellProperties(cell.X, cell.Y, cell.IsTransparent, isWalkable, cell.IsExplored);
         }
 
@@ -136,7 +136,7 @@ namespace MistwoodTales.Game.Client.RLNet.World
             }
         }
 
-        protected virtual void SetConsoleSymbolForCell(RLConsole console, Cell cell)
+        protected virtual void SetConsoleSymbolForCell(CGLConsole console, Cell cell)
         {
             // When we haven't explored a cell yet, we don't want to draw anything
             if (!cell.IsExplored)

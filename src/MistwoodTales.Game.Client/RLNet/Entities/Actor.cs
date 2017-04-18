@@ -2,7 +2,7 @@
 using MistwoodTales.Game.Client.RLNet.Base;
 using MistwoodTales.Game.Client.RLNet.Scheduling;
 using MistwoodTales.Game.Client.RLNet.Systems;
-using RLNET;
+using ConsoleGL;
 using RogueSharp;
 
 namespace MistwoodTales.Game.Client.RLNet.Entities
@@ -16,12 +16,12 @@ namespace MistwoodTales.Game.Client.RLNet.Entities
 
         public string Name { get; set; }
         public int LightRadius { get; set; }
-        public RLColor Color { get; set; }
+        public CGLColor Color { get; set; }
         public char Symbol { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
 
-        public void Draw(RLConsole console, IMap map)
+        public void Draw(CGLConsole console, IMap map)
         {
 
             // Don't draw actors in cells that haven't been explored

@@ -186,7 +186,7 @@ namespace MistwoodTales.Game.Client.RLNet.Systems
 
         }
 
-        public void MonsterMoveOrAttack(Monster monster, Cell cell)
+        public void MonsterMoveOrAttack(Monster monster, ICell cell)
         {
             var player = Game.Player;
             if (cell.X == player.X && cell.Y == player.Y // targeting player

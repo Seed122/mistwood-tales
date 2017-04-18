@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using RLNET;
+using ConsoleGL;
 
 namespace MistwoodTales.Game.Client.RLNet.Base
 {
@@ -30,13 +30,13 @@ namespace MistwoodTales.Game.Client.RLNet.Base
         }
 
         // Draw each line of the MessageLog queue to the console
-        public void Draw(RLConsole console)
+        public void Draw(CGLConsole console)
         {
             console.Clear();
             string[] lines = _lines.ToArray();
             for (int i = 0; i < lines.Length; i++)
             {
-                console.Print(1, i + 1, lines[i], RLColor.White);
+                console.Print(1, i + 1, lines[i], CGLColor.White);
             }
         }
     }

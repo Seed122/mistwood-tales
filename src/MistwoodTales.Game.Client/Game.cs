@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
-using System.Timers;
-using MistwoodTales.Game.Client.Legacy;
+using System.Threading;
 using MistwoodTales.Game.Client.RLNet.Base;
 using MistwoodTales.Game.Client.RLNet.Scheduling;
 using MistwoodTales.Game.Client.RLNet.Systems;
 using MistwoodTales.Game.Client.RLNet.World;
-using RLNET;
+using ConsoleGL;
+using RogueSharp;
 using RogueSharp.Random;
 using Player = MistwoodTales.Game.Client.RLNet.Entities.Player;
 
@@ -16,31 +16,31 @@ namespace MistwoodTales.Game.Client
     {
         private static Map _map;
 
-
+        
         // The screen height and width are in number of tiles
         private static readonly int _screenWidth = 120;
         private static readonly int _screenHeight = 80;
-        private static RLRootConsole _rootConsole;
+        private static CGLRootConsole _rootConsole;
 
         // The map console takes up most of the screen and is where the map will be drawn
         private static readonly int _mapWidth = 100;
         private static readonly int _mapHeight = 69;
-        private static RLConsole _mapConsole;
+        private static CGLConsole _mapConsole;
 
         // Below the map console is the message console which displays attack rolls and other information
         private static readonly int _messageWidth = 100;
         private static readonly int _messageHeight = 11;
-        private static RLConsole _messageConsole;
+        private static CGLConsole _messageConsole;
 
         // The stat console is to the right of the map and display player and monster stats
         private static readonly int _statWidth = 20;
         private static readonly int _statHeight = 80;
-        private static RLConsole _statConsole;
+        private static CGLConsole _statConsole;
 
         // Above the map is the inventory console which shows the players equipment, abilities, and items
         //private static readonly int _inventoryWidth = 80;
         //private static readonly int _inventoryHeight = 11;
-        //private static RLConsole _inventoryConsole;
+        //private static CGLConsole _inventoryConsole;
 
         //private static bool _renderRequired = true;
 
@@ -64,25 +64,25 @@ namespace MistwoodTales.Game.Client
             // The next two lines already existed
 
             // Tell RLNet to use the bitmap font that we specified and that each tile is 8 x 8 pixels
-            //_rootConsole = new RLRootConsole(fontFileName, _screenWidth, _screenHeight, 8, 8, 1.5f, consoleTitle);
+            //_rootConsole = new CGLRootConsole(fontFileName, _screenWidth, _screenHeight, 8, 8, 1.5f, consoleTitle);
 
-            RLSettings s = new RLSettings
+            CGLSettings s = new CGLSettings
             {
-                StartWindowState = RLWindowState.Fullscreen,
+                StartWindowState = CGLWindowState.Fullscreen,
                 BitmapFile = fontFileName,
                 Scale = 1.5f,
                 Width = _screenWidth,
                 Height = _screenHeight,
                 Title = consoleTitle,
-                WindowBorder = RLWindowBorder.Fixed,
+                WindowBorder = CGLWindowBorder.Fixed,
             };
 
-            _rootConsole = new RLRootConsole(s);
+            _rootConsole = new CGLRootConsole(s);
 
-            _mapConsole = new RLConsole(_mapWidth, _mapHeight);
-            _messageConsole = new RLConsole(_messageWidth, _messageHeight);
-            _statConsole = new RLConsole(_statWidth, _statHeight);
-            //_inventoryConsole = new RLConsole(_inventoryWidth, _inventoryHeight);
+            _mapConsole = new CGLConsole(_mapWidth, _mapHeight);
+            _messageConsole = new CGLConsole(_messageWidth, _messageHeight);
+            _statConsole = new CGLConsole(_statWidth, _statHeight);
+            //_inventoryConsole = new CGLConsole(_inventoryWidth, _inventoryHeight);
             // Set up a handler for RLNET's Update event
             _rootConsole.Update += OnRootConsoleUpdate;
             // Set up a handler for RLNET's Render event
@@ -91,10 +91,11 @@ namespace MistwoodTales.Game.Client
             Player = new Player();
             MapGenerator mapGenerator = new MapGenerator(_mapWidth, _mapHeight, 20, 13, 7);
 
-            //CurrentMap = mapGenerator.CreateMap();
-            CurrentMap = MapLoader.Load(@"..\..\..\MistwoodTales.Game\map.txt");
+            CurrentMap = mapGenerator.CreateMap();
 
-            CurrentMap.AddPlayer(Player);
+            //CurrentMap = MapLoader.Load(@"..\..\..\MistwoodTales.Game\map.txt");
+            //CurrentMap.AddPlayer(Player);
+
             CurrentMap.UpdatePlayerFieldOfView();
             
             // Create a new MessageLog and print the random seed used to generate the level
@@ -103,15 +104,19 @@ namespace MistwoodTales.Game.Client
 
             if (_scheduleMode == ScheduleMode.Timer)
             {
-                _scheduleTimer = new Timer(150);
-                _scheduleTimer.Elapsed += (o, e) => {
-                    CommandSystem.Act();
-                };
-                _scheduleTimer.Start();
+                _scheduleTimer = new Timer(ScheduleTimerCallback, null, 0, _scheduleTimerPeriod);
+                // starts automatically
             }
 
             _rootConsole.Run(10);
             CommandSystem.RedrawNeeded = true;
+        }
+
+        private static readonly int _scheduleTimerPeriod = 150;
+
+        private static void ScheduleTimerCallback(object state)
+        {
+            CommandSystem.Act();
         }
 
         public static DotNetRandom Random { get; set; }
@@ -122,27 +127,27 @@ namespace MistwoodTales.Game.Client
         // Event handler for RLNET's Update event
         private static void OnRootConsoleUpdate(object sender, UpdateEventArgs e)
         {
-            RLKeyPress keyPress = _rootConsole.Keyboard.GetKeyPress();
+            var keyPress = _rootConsole.Keyboard.GetKeyPress();
             if (keyPress != null)
             {
                 switch (keyPress.Key)
                 {
-                    //case RLKey.Up:
+                    //case CGLKey.Up:
                     //    CommandSystem.MovePlayer(Direction.Up);
                     //    break;
-                    //case RLKey.Down:
+                    //case CGLKey.Down:
                     //    CommandSystem.MovePlayer(Direction.Down);
                     //    break;
-                    //case RLKey.Left:
+                    //case CGLKey.Left:
                     //    CommandSystem.MovePlayer(Direction.Left);
                     //    break;
-                    //case RLKey.Right:
+                    //case CGLKey.Right:
                     //    CommandSystem.MovePlayer(Direction.Right);
                     //    break;
-                    case RLKey.Escape:
+                    case CGLKey.Escape:
                         _rootConsole.Close();
                         break;
-                    case RLKey.Space:
+                    case CGLKey.Space:
                         if (_scheduleMode == ScheduleMode.Manual)
                         {
                             CommandSystem.Act();
@@ -166,7 +171,7 @@ namespace MistwoodTales.Game.Client
 
         private static int _steps = 0;
         private static ScheduleMode _scheduleMode = ScheduleMode.Timer;
-        private static System.Timers.Timer _scheduleTimer; 
+        private static Timer _scheduleTimer; 
 
         // Event handler for RLNET's Render event
         private static void OnRootConsoleRender(object sender, UpdateEventArgs e)
@@ -197,11 +202,11 @@ namespace MistwoodTales.Game.Client
             Player.Draw(_mapConsole, CurrentMap);
             Player.DrawStats(_statConsole);
             // Blit the sub consoles to the root console in the correct locations
-            RLConsole.Blit(_mapConsole, 0, 0, _mapWidth, _mapHeight, _rootConsole, 0, 0);
-            RLConsole.Blit(_statConsole, 0, 0, _statWidth, _statHeight, _rootConsole, _mapWidth, 0);
-            RLConsole.Blit(_messageConsole, 0, 0, _messageWidth, _messageHeight, _rootConsole, 0,
+            CGLConsole.Blit(_mapConsole, 0, 0, _mapWidth, _mapHeight, _rootConsole, 0, 0);
+            CGLConsole.Blit(_statConsole, 0, 0, _statWidth, _statHeight, _rootConsole, _mapWidth, 0);
+            CGLConsole.Blit(_messageConsole, 0, 0, _messageWidth, _messageHeight, _rootConsole, 0,
                 _screenHeight - _messageHeight);
-            //RLConsole.Blit(_inventoryConsole, 0, 0, _inventoryWidth, _inventoryHeight, _rootConsole, 0, 0);
+            //CGLConsole.Blit(_inventoryConsole, 0, 0, _inventoryWidth, _inventoryHeight, _rootConsole, 0, 0);
             // Tell RLNET to draw the console that we set
             _rootConsole.Draw();
             CommandSystem.RedrawNeeded = false;

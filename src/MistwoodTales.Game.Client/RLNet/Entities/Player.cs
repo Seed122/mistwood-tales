@@ -1,6 +1,6 @@
 ﻿using MistwoodTales.Game.Client.RLNet.Base;
 using MistwoodTales.Game.Client.RLNet.Scheduling;
-using RLNET;
+using ConsoleGL;
 using RogueSharp;
 
 namespace MistwoodTales.Game.Client.RLNet.Entities
@@ -30,7 +30,7 @@ namespace MistwoodTales.Game.Client.RLNet.Entities
 
         private readonly PathMoveBehavior _pathMoveBehavior;
 
-        public void DrawStats(RLConsole statConsole)
+        public void DrawStats(CGLConsole statConsole)
         {
             statConsole.Print(1, 1, $"Name:    {Name}", Colors.Text);
             statConsole.Print(1, 3, $"Health:  {Health}/{MaxHealth}", Colors.Text);

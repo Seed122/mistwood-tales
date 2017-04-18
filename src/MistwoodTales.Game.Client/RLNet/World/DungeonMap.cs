@@ -2,7 +2,7 @@
 using System.Linq;
 using MistwoodTales.Game.Client.RLNet.Base;
 using MistwoodTales.Game.Client.RLNet.Entities;
-using RLNET;
+using ConsoleGL;
 using RogueSharp;
 
 namespace MistwoodTales.Game.Client.RLNet.World
@@ -35,7 +35,7 @@ namespace MistwoodTales.Game.Client.RLNet.World
             }
 
             // If we didn't find a walkable location in the room return null
-            return null;
+            throw new PathNotFoundException();
         }
 
         // Iterate through each Cell in the room and return true if any are walkable
