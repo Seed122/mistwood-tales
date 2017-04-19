@@ -24,22 +24,24 @@
  */
 #endregion
 
-using System;
-
-namespace ConsoleGL
+namespace MistwoodTales.Game.Client.Systems.Rendering.ConsoleGL
 {
-    public delegate void UpdateEventHandler(object sender, UpdateEventArgs e);
-
-    public class UpdateEventArgs : EventArgs
+    public struct CGLCell
     {
-        public UpdateEventArgs(double time)
+        public CGLColor backColor;
+        public CGLColor color;
+        public int character;
+
+        public CGLCell(CGLColor backColor, CGLColor color, int character)
         {
-            this.Time = time;
+            this.backColor = backColor;
+            this.color = color;
+            this.character = character;
         }
 
-        /// <summary>
-        /// Gets the time in seconds since the last update.
-        /// </summary>
-        public double Time { get; private set; }
+        public override string ToString()
+        {
+            return string.Format("C:{0}, B:{1}, F:{2}", character, backColor, color);
+        }
     }
 }

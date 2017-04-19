@@ -1,7 +1,7 @@
-﻿using ConsoleGL;
+﻿using MistwoodTales.Game.Client.Systems.Rendering.ConsoleGL;
 using RogueSharp;
 
-namespace MistwoodTales.Game.Client.Entities
+namespace MistwoodTales.Game.Client.Base
 {
     interface IDrawable
     {

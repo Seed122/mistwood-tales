@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using ConsoleGL;
+using MistwoodTales.Game.Client.Systems.Rendering.ConsoleGL;
 
 namespace MistwoodTales.Game.Client.Base
 {

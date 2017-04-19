@@ -24,13 +24,13 @@
  */
 #endregion
 
-using OpenTK.Graphics.OpenGL;
 using System;
 using System.Drawing.Imaging;
 using OpenTK;
 using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 
-namespace ConsoleGL
+namespace MistwoodTales.Game.Client.Systems.Rendering.ConsoleGL
 {
     public class CGLRootConsole : CGLConsole
     {

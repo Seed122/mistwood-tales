@@ -1,4 +1,4 @@
-﻿using ConsoleGL;
+﻿using MistwoodTales.Game.Client.Systems.Rendering.ConsoleGL;
 
 namespace MistwoodTales.Game.Client.Base
 {
@@ -13,6 +13,10 @@ namespace MistwoodTales.Game.Client.Base
         public static CGLColor Wall = Swatch.Secondary;
         public static CGLColor WallBackgroundFov = Swatch.SecondaryDarker;
         public static CGLColor WallFov = Swatch.SecondaryLighter;
+        public static CGLColor DoorBackground = Swatch.ComplimentDarkest;
+        public static CGLColor Door = Swatch.ComplimentLighter;
+        public static CGLColor DoorBackgroundFov = Swatch.ComplimentDarker;
+        public static CGLColor DoorFov = Swatch.ComplimentLightest;
 
         public static CGLColor TextHeading = Swatch.DbLight;
         public static CGLColor Player = Swatch.DbLight;

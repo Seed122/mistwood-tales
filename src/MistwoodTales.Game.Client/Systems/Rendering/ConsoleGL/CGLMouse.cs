@@ -24,9 +24,11 @@
  */
 #endregion
 
+using System;
 using OpenTK;
+using OpenTK.Input;
 
-namespace ConsoleGL
+namespace MistwoodTales.Game.Client.Systems.Rendering.ConsoleGL
 {
     public class CGLMouse
     {
@@ -58,6 +60,10 @@ namespace ConsoleGL
         private int offsetX;
         private int offsetY;
 
+        public event EventHandler<MouseButtonEventArgs> MouseUp;
+        public event EventHandler<MouseButtonEventArgs> MouseDown;
+        public event EventHandler<MouseMoveEventArgs> MouseMove;
+
         internal CGLMouse(GameWindow window)
         {
            
@@ -87,6 +93,7 @@ namespace ConsoleGL
                 RightPressed = false;
                 rightClick = true;
             }
+            MouseUp?.Invoke(sender, e);
         }
 
         private void window_MouseDown(object sender, OpenTK.Input.MouseButtonEventArgs e)
@@ -101,6 +108,7 @@ namespace ConsoleGL
                 RightPressed = true;
                 rightClick = false;
             }
+            MouseDown?.Invoke(sender, e);
         }
 
         private void window_MouseMove(object sender, OpenTK.Input.MouseMoveEventArgs e)
@@ -109,6 +117,7 @@ namespace ConsoleGL
             Y = (int)((e.Y - offsetY) / (charHeight * scale));
             rightClick = false;
             leftClick = false;
+            MouseMove?.Invoke(sender, e);
         }
 
         /// <summary>

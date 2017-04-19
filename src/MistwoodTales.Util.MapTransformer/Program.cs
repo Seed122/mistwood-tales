@@ -21,7 +21,7 @@ namespace MistwoodTales.Util.MapTransformer
 
     class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             var baseDir = AppDomain.CurrentDomain.BaseDirectory;
             string mapFilepath = Path.Combine(baseDir, @"..\..\..\MistwoodTales.Game\mistmap-ed.txt");

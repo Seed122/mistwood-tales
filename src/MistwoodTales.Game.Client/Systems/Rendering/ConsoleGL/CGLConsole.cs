@@ -27,7 +27,7 @@
 using System;
 using System.Text;
 
-namespace ConsoleGL
+namespace MistwoodTales.Game.Client.Systems.Rendering.ConsoleGL
 {
     public class CGLConsole
     {

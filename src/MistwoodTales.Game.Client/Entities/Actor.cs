@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using ConsoleGL;
 using MistwoodTales.Game.Client.Base;
 using MistwoodTales.Game.Client.Scheduling;
 using MistwoodTales.Game.Client.Systems;
+using MistwoodTales.Game.Client.Systems.Rendering.ConsoleGL;
 using RogueSharp;
 
 namespace MistwoodTales.Game.Client.Entities

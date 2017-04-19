@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
-using ConsoleGL;
 using MistwoodTales.Game.Client.Base;
 using MistwoodTales.Game.Client.Scheduling;
 using MistwoodTales.Game.Client.Systems;
@@ -29,7 +28,9 @@ namespace MistwoodTales.Game.Client
             SchedulingSystem = new SchedulingSystem();
             RenderSystem = new RenderSystem();
             Player = new Player();
-            MapGenerator mapGenerator = new MapGenerator(Configuration.ScreenWidth, Configuration.ScreenHeight, 20, 13, 7);
+            int mapWidth = Configuration.ScreenWidth - Configuration.StatFrameWidth;
+            int mapHeight = Configuration.ScreenHeight - Configuration.MessagesFrameHeight;
+            MapGenerator mapGenerator = new MapGenerator(mapWidth, mapHeight, 20, 13, 7);
 
             CurrentMap = mapGenerator.CreateMap();
 
@@ -58,8 +59,8 @@ namespace MistwoodTales.Game.Client
             Configuration.ScreenHeight = 80;
             Configuration.MessagesFrameHeight = 11;
             Configuration.StatFrameWidth = 20;
-            Configuration.FramesPerSecond = 100;
-            Configuration.InputUpdatesPerSecond = 100;
+            Configuration.FramesPerSecond = 20;
+            Configuration.InputUpdatesPerSecond = 20;
         }
 
         public static DotNetRandom Random { get; set; }

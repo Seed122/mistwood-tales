@@ -105,14 +105,12 @@ namespace MistwoodTales.Game.Client.World
             Point randomRoomLocation = _map.GetRandomWalkableLocationInRoom(room);
             // It's possible that the room doesn't have space to place a monster
             // In that case skip creating the monster
-            if (randomRoomLocation != null)
-            {
-                // Temporarily hard code this monster to be created at level 1
-                var monster = Kobold.Create(1);
-                monster.X = randomRoomLocation.X;
-                monster.Y = randomRoomLocation.Y;
-                _map.AddMonster(monster);
-            }
+
+            // Temporarily hard code this monster to be created at level 1
+            var monster = Kobold.Create(1);
+            monster.X = randomRoomLocation.X;
+            monster.Y = randomRoomLocation.Y;
+            _map.AddMonster(monster);
         }
 
         private void GenerateMonsters()

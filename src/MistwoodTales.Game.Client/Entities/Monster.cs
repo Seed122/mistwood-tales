@@ -1,7 +1,7 @@
 ﻿using System;
-using ConsoleGL;
 using MistwoodTales.Game.Client.Base;
 using MistwoodTales.Game.Client.Scheduling;
+using MistwoodTales.Game.Client.Systems.Rendering.ConsoleGL;
 
 namespace MistwoodTales.Game.Client.Entities
 {

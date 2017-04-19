@@ -24,10 +24,11 @@
  */
 #endregion
 
+using System;
 using OpenTK;
 using OpenTK.Input;
 
-namespace ConsoleGL
+namespace MistwoodTales.Game.Client.Systems.Rendering.ConsoleGL
 {
     public class CGLKeyboard
     {
@@ -39,6 +40,8 @@ namespace ConsoleGL
         private bool shift;
         private bool ctCGL;
         private bool repeating;
+
+        public event Action<KeyboardKeyEventArgs> KeyDown;
 
         internal CGLKeyboard(GameWindow gameWindow)
         {
@@ -64,7 +67,10 @@ namespace ConsoleGL
             alt = (keyState.IsKeyDown(Key.LAlt) || keyState.IsKeyDown(Key.RAlt));
 
             CGLKeyPress newKeyPress = new CGLKeyPress((CGLKey)e.Key, alt, shift, ctCGL, repeating, numLock, capsLock, scrollLock);
-            if (keyPress != newKeyPress) keyPress = newKeyPress;
+            if (keyPress != newKeyPress)
+                keyPress = newKeyPress;
+
+            KeyDown?.Invoke(e);
         }
 
 
@@ -78,6 +84,5 @@ namespace ConsoleGL
             keyPress = null;
             return kp;
         }
-
     }
 }

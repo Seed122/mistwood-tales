@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using ConsoleGL;
 using MistwoodTales.Game.Client.Base;
 using MistwoodTales.Game.Client.Scheduling;
+using MistwoodTales.Game.Client.Systems.Rendering.ConsoleGL;
 
 namespace MistwoodTales.Game.Client.Systems
 {
@@ -110,7 +110,7 @@ namespace MistwoodTales.Game.Client.Systems
                 }
             }
 
-            bool leftClicked = _rootConsole.Mouse.LeftPressed;
+            bool leftClicked = _rootConsole.Mouse.GetLeftClick();
             if (leftClicked)
             {
                 var mouseX = _rootConsole.Mouse.X;
@@ -130,29 +130,20 @@ namespace MistwoodTales.Game.Client.Systems
         {
             if (!RedrawNeeded)
                 return;
-            if (!_oneTime)
-                return;
-            _oneTime = true;
-            Game.MessageLog.Draw(_messageConsole);
+            //Game.MessageLog.Draw(_messageConsole);
             Game.CurrentMap.Draw(_mapConsole, _statConsole);
-            Game.Player.Draw(_mapConsole, Game.CurrentMap);
-            Game.Player.DrawStats(_statConsole);
-            // Blit the sub consoles to the root console in the correct locations
+            //Game.Player.Draw(_mapConsole, Game.CurrentMap);
+            //Game.Player.DrawStats(_statConsole);
             _messageConsole.SetBackColor(0, 0, _messageWidth, _messageHeight, Swatch.DbDeepWater);
-            //_messageConsole.Print(1, 1, "Сообщения", Colors.TextHeading);
             _mapConsole.SetBackColor(0, 0, _mapWidth, _mapHeight, Colors.FloorBackground);
-            //_mapConsole.Print(1, 1, "Мир", Colors.TextHeading);
             _statConsole.SetBackColor(0, 0, _statWidth, _statHeight, Swatch.DbOldStone);
-            //_statConsole.Print(1, 1, "Stats", Colors.TextHeading);
             CGLConsole.Blit(_mapConsole, 0, 0, _mapWidth, _mapHeight, _rootConsole, 0, 0);
-            CGLConsole.Blit(_statConsole, 0, 0, _statWidth, _statHeight, _rootConsole, _mapWidth, 0);
-            CGLConsole.Blit(_messageConsole, 0, 0, _messageWidth, _messageHeight, _rootConsole, 0,
-                _screenHeight - _messageHeight);
+            //CGLConsole.Blit(_statConsole, 0, 0, _statWidth, _statHeight, _rootConsole, _mapWidth, 0);
+            //CGLConsole.Blit(_messageConsole, 0, 0, _messageWidth, _messageHeight, _rootConsole, 0, _screenHeight - _messageHeight);
             _rootConsole.Draw();
             RedrawNeeded = false;
         }
 
-        private bool _oneTime = true;
 
         private static void ScheduleTimerCallback(object state)
         {

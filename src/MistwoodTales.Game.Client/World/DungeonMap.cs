@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using MistwoodTales.Game.Client.Entities;
+using MistwoodTales.Game.Client.Systems.Rendering.ConsoleGL;
 using RogueSharp;
 
 namespace MistwoodTales.Game.Client.World
@@ -9,10 +12,41 @@ namespace MistwoodTales.Game.Client.World
         {
             // Initialize the list of rooms when we create a new DungeonMap
             Rooms = new List<Rectangle>();
+            Doors = new List<Door>();
         }
 
         public List<Rectangle> Rooms { get; set; }
+        public List<Door> Doors { get; set; }
+        
+        // Return the door at the x,y position or null if one is not found.
+        public Door GetDoor(int x, int y)
+        {
+            return Doors.SingleOrDefault(d => d.X == x && d.Y == y);
+        }
 
+        public override void Draw(CGLConsole mapConsole, CGLConsole statConsole)
+        {
+            base.Draw(mapConsole, statConsole);
+            foreach (Door door in Doors)
+            {
+     //           door.Draw(mapConsole, this);
+            }
+        }
+
+        // The actor opens the door located at the x,y position
+        private void OpenDoor(Actor actor, int x, int y)
+        {
+            Door door = GetDoor(x, y);
+            if (door != null && !door.IsOpen)
+            {
+                door.IsOpen = true;
+                var cell = GetCell(x, y);
+                // Once the door is opened it should be marked as transparent and no longer block field-of-view
+                SetCellProperties(x, y, true, cell.IsWalkable, cell.IsExplored);
+
+                //Game.MessageLog.Add($"{actor.Name} opened a door");
+            }
+        }
 
         // Look for a random location in the room that is walkable.
         public Point GetRandomWalkableLocationInRoom(Rectangle room)
@@ -48,6 +82,17 @@ namespace MistwoodTales.Game.Client.World
                 }
             }
             return false;
+        }
+
+        // Returns true when able to place the Actor on the cell or false otherwise
+        public override bool SetActorPosition(Actor actor, int x, int y)
+        {
+            var res = base.SetActorPosition(actor, x, y);
+            if (!res)
+            {
+                OpenDoor(actor, x, y);
+            }
+            return res;
         }
     }
 }

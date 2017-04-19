@@ -24,12 +24,15 @@
  */
 #endregion
 
-namespace ConsoleGL
+using OpenTK;
+
+namespace MistwoodTales.Game.Client.Systems.Rendering.ConsoleGL
 {
-    public enum CGLResizeType
+    public enum CGLWindowState
     {
-        None,
-        ResizeCells,
-        ResizeScale
+        Normal = WindowState.Normal,
+        Minimized = WindowState.Minimized,
+        Maximized = WindowState.Maximized,
+        Fullscreen = WindowState.Fullscreen
     }
 }

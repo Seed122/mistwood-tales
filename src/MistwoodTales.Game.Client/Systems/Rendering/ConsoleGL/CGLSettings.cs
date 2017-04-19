@@ -24,24 +24,33 @@
  */
 #endregion
 
-namespace ConsoleGL
+namespace MistwoodTales.Game.Client.Systems.Rendering.ConsoleGL
 {
-    public struct CGLCell
+    public class CGLSettings
     {
-        public CGLColor backColor;
-        public CGLColor color;
-        public int character;
+        public string BitmapFile { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public int CharWidth { get; set; }
+        public int CharHeight { get; set; }
+        public float Scale { get; set; }
+        public string Title { get; set; }
+        public CGLWindowState StartWindowState { get; set; }
+        public CGLWindowBorder WindowBorder { get; set; }
+        public CGLResizeType ResizeType { get; set; }
 
-        public CGLCell(CGLColor backColor, CGLColor color, int character)
+        public CGLSettings()
         {
-            this.backColor = backColor;
-            this.color = color;
-            this.character = character;
-        }
-
-        public override string ToString()
-        {
-            return string.Format("C:{0}, B:{1}, F:{2}", character, backColor, color);
+            BitmapFile = "ascii_8x8.png";
+            Width = 60;
+            Height = 40;
+            CharWidth = 8;
+            CharHeight = 8;
+            Scale = 1f;
+            Title = "CGLNET Console";
+            WindowBorder = CGLWindowBorder.Fixed;
+            ResizeType = CGLResizeType.None;
+            StartWindowState = CGLWindowState.Normal;
         }
     }
 }

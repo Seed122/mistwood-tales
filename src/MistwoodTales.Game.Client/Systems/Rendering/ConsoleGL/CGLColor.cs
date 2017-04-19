@@ -24,7 +24,7 @@
  */
 #endregion
 
-namespace ConsoleGL
+namespace MistwoodTales.Game.Client.Systems.Rendering.ConsoleGL
 {
     /// <summary>
     /// Represents a color to be drawn

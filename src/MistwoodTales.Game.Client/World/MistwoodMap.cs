@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using ConsoleGL;
 using MistwoodTales.Game.Client.Base;
 using MistwoodTales.Game.Client.Entities;
+using MistwoodTales.Game.Client.Systems.Rendering.ConsoleGL;
 using RogueSharp;
 
 namespace MistwoodTales.Game.Client.World
@@ -83,7 +83,7 @@ namespace MistwoodTales.Game.Client.World
         }
 
         // Returns true when able to place the Actor on the cell or false otherwise
-        public bool SetActorPosition(Actor actor, int x, int y)
+        public virtual bool SetActorPosition(Actor actor, int x, int y)
         {
             if (actor.X == x && actor.Y == y)
                 return false;

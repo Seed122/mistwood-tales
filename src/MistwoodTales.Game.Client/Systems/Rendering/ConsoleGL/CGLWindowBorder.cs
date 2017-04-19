@@ -24,29 +24,14 @@
  */
 #endregion
 
-using System;
+using OpenTK;
 
 namespace MistwoodTales.Game.Client.Systems.Rendering.ConsoleGL
 {
-    public delegate void ResizeEventHandler(object sender, ResizeEventArgs e);
-
-    public class ResizeEventArgs : EventArgs
+    public enum CGLWindowBorder
     {
-        public ResizeEventArgs(int x, int y)
-        {
-            this.Width = x;
-            this.Height = y;
-        }
-
-        /// <summary>
-        /// Width, in cells, of the new size.
-        /// </summary>
-        public int Width { get; private set; }
-
-        /// <summary>
-        /// Height, in cells, of the new size.
-        /// </summary>
-        public int Height { get; private set; }
-
+        Fixed = WindowBorder.Fixed,
+        Hidden = WindowBorder.Hidden,
+        Resizable = WindowBorder.Resizable
     }
 }

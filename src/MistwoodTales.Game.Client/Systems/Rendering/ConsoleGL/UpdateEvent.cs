@@ -24,14 +24,22 @@
  */
 #endregion
 
-using OpenTK;
+using System;
 
-namespace ConsoleGL
+namespace MistwoodTales.Game.Client.Systems.Rendering.ConsoleGL
 {
-    public enum CGLWindowBorder
+    public delegate void UpdateEventHandler(object sender, UpdateEventArgs e);
+
+    public class UpdateEventArgs : EventArgs
     {
-        Fixed = WindowBorder.Fixed,
-        Hidden = WindowBorder.Hidden,
-        Resizable = WindowBorder.Resizable
+        public UpdateEventArgs(double time)
+        {
+            this.Time = time;
+        }
+
+        /// <summary>
+        /// Gets the time in seconds since the last update.
+        /// </summary>
+        public double Time { get; private set; }
     }
 }
