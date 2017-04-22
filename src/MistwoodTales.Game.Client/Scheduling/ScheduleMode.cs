@@ -1,6 +1,6 @@
 ﻿namespace MistwoodTales.Game.Client.Scheduling
 {
-    enum ScheduleMode
+    public enum ScheduleMode
     {
         Moves,
         Manual,

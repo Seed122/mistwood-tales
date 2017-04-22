@@ -120,8 +120,8 @@ namespace MistwoodTales.Game.Client.World
                 // Each room has a 60% chance of having monsters
                 if (Dice.Roll("1D10") < 7)
                 {
-                    // Generate between 1 and 4 monsters
-                    var numberOfMonsters = Dice.Roll("1D4");
+                    // Generate between 1 and 3 monsters
+                    var numberOfMonsters = Dice.Roll("1D3");
                     for (int i = 0; i < numberOfMonsters; i++)
                     {
                         // Find a random walkable location in the room to place the monster

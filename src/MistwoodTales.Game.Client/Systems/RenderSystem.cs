@@ -33,8 +33,8 @@ namespace MistwoodTales.Game.Client.Systems
         private readonly int _mapHeight = Configuration.ScreenHeight - Configuration.MessagesFrameHeight;
         private CGLConsole _mapConsole;
 
-        private readonly string fontFileName = "terminal8x8cyr.png";
-        private readonly string consoleTitle = "MistwoodTales";
+        private readonly string _fontFileName = Configuration.RenderingFontFileName;
+        private readonly string _consoleTitle = "MistwoodTales";
 
         public void Start()
         {
@@ -43,11 +43,11 @@ namespace MistwoodTales.Game.Client.Systems
             CGLSettings s = new CGLSettings
             {
                 StartWindowState = CGLWindowState.Fullscreen,
-                BitmapFile = fontFileName,
+                BitmapFile = _fontFileName,
                 Scale = 1.5f,
                 Width = _screenWidth,
                 Height = _screenHeight,
-                Title = consoleTitle,
+                Title = _consoleTitle,
                 WindowBorder = CGLWindowBorder.Fixed,
             };
 
@@ -72,7 +72,7 @@ namespace MistwoodTales.Game.Client.Systems
             }
             finally
             {
-                _scheduleTimer.Dispose();
+                _scheduleTimer?.Dispose();
             }
         }
 
@@ -86,18 +86,6 @@ namespace MistwoodTales.Game.Client.Systems
             {
                 switch (keyPress.Key)
                 {
-                    //case CGLKey.Up:
-                    //    CommandSystem.MovePlayer(Direction.Up);
-                    //    break;
-                    //case CGLKey.Down:
-                    //    CommandSystem.MovePlayer(Direction.Down);
-                    //    break;
-                    //case CGLKey.Left:
-                    //    CommandSystem.MovePlayer(Direction.Left);
-                    //    break;
-                    //case CGLKey.Right:
-                    //    CommandSystem.MovePlayer(Direction.Right);
-                    //    break;
                     case CGLKey.Escape:
                         _rootConsole.Close();
                         break;
@@ -132,7 +120,7 @@ namespace MistwoodTales.Game.Client.Systems
                 return;
             //Game.MessageLog.Draw(_messageConsole);
             Game.CurrentMap.Draw(_mapConsole, _statConsole);
-            //Game.Player.Draw(_mapConsole, Game.CurrentMap);
+            Game.Player.Draw(_mapConsole, Game.CurrentMap);
             //Game.Player.DrawStats(_statConsole);
             _messageConsole.SetBackColor(0, 0, _messageWidth, _messageHeight, Swatch.DbDeepWater);
             _mapConsole.SetBackColor(0, 0, _mapWidth, _mapHeight, Colors.FloorBackground);
@@ -153,8 +141,8 @@ namespace MistwoodTales.Game.Client.Systems
         private Timer _scheduleTimer;
 
 
-        private readonly int _scheduleTimerPeriod = 150;
-        private readonly ScheduleMode _scheduleMode = ScheduleMode.Timer;
+        private readonly int _scheduleTimerPeriod = Configuration.ScheduleTimerPeriod;
+        private readonly ScheduleMode _scheduleMode = Configuration.ScheduleMode;
 
         public bool RedrawNeeded { get; set; }
 

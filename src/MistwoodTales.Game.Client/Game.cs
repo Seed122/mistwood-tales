@@ -61,6 +61,10 @@ namespace MistwoodTales.Game.Client
             Configuration.StatFrameWidth = 20;
             Configuration.FramesPerSecond = 20;
             Configuration.InputUpdatesPerSecond = 20;
+
+            Configuration.ScheduleMode = ScheduleMode.Manual;
+            Configuration.ScheduleTimerPeriod = 150;
+            Configuration.RenderingFontFileName = "terminal8x8cyr.png";
         }
 
         public static DotNetRandom Random { get; set; }

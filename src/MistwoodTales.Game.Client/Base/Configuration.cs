@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using MistwoodTales.Game.Client.Scheduling;
 
 namespace MistwoodTales.Game.Client.Base
 {
@@ -15,5 +16,8 @@ namespace MistwoodTales.Game.Client.Base
 
         public static int FramesPerSecond { get; set; }
         public static int InputUpdatesPerSecond { get; set; }
+        public static ScheduleMode ScheduleMode { get; set; }
+        public static int ScheduleTimerPeriod { get; set; }
+        public static string RenderingFontFileName { get; set; }
     }
 }
