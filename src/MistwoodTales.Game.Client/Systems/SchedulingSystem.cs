@@ -7,20 +7,20 @@ namespace MistwoodTales.Game.Client.Systems
 {
     class SchedulingSystem
     {
-        private volatile int _time;
-        private readonly SortedDictionary<int, List<IScheduleable>> _scheduleables;
+        private volatile float _time;
+        private readonly SortedDictionary<float, List<IScheduleable>> _scheduleables;
 
         public SchedulingSystem()
         {
             _time = 0;
-            _scheduleables = new SortedDictionary<int, List<IScheduleable>>();
+            _scheduleables = new SortedDictionary<float, List<IScheduleable>>();
         }
 
         // Add a new object to the schedule 
         // Place it at the current time plus the object's Time property.
         public void Add(IScheduleable scheduleable)
         {
-            int key = _time + scheduleable.Time;
+            float key = _time + scheduleable.Time;
             if (!_scheduleables.ContainsKey(key))
             {
                 //_scheduleables.Add(key, new List<IScheduleable>());
@@ -91,7 +91,7 @@ namespace MistwoodTales.Game.Client.Systems
         }
 
         // Get the current time (turn) for the schedule
-        public int GetTime()
+        public float GetTime()
         {
             return _time;
         }
@@ -105,13 +105,16 @@ namespace MistwoodTales.Game.Client.Systems
 
         public void RunActions()
         {
-            var scheduleables = Get();
-            foreach (var scheduleable in scheduleables)
+            lock (this)
             {
-                var actor = scheduleable as Actor;
-                actor?.PerformAction(Game.CommandSystem);
+                var scheduleables = Get();
+                foreach (var scheduleable in scheduleables)
+                {
+                    var actor = scheduleable as Actor;
+                    actor?.PerformAction(Game.CommandSystem);
+                }
+                Add(scheduleables);
             }
-            Add(scheduleables);
         }
     }
 }

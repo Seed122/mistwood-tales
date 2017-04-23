@@ -2,6 +2,6 @@
 {
     interface IScheduleable
     {
-        int Time { get; }
+        float Time { get; }
     }
 }

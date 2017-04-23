@@ -31,7 +31,8 @@ namespace MistwoodTales.Game.Client.World
         public virtual void Draw(CGLConsole mapConsole, CGLConsole statConsole)
         {
             mapConsole.Clear();
-            foreach (Cell cell in GetAllCells())
+            statConsole.Clear();
+            foreach (ICell cell in GetAllCells())
             {
                 SetConsoleSymbolForCell(mapConsole, cell);
             }
@@ -133,8 +134,15 @@ namespace MistwoodTales.Game.Client.World
             }
         }
 
-        protected virtual void SetConsoleSymbolForCell(CGLConsole console, Cell cell)
+        protected virtual void SetConsoleSymbolForCell(CGLConsole console, ICell cell)
         {
+
+            // Randomly blinking map:
+            // var chars = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM[];',./{}<:>?!@#$%^&*()_+";
+            // console.Set(cell.X, cell.Y, Colors.FloorFov, Colors.FloorBackgroundFov, chars[Game.Random.Next(chars.Length)]);
+            // return;
+
+
             // When we haven't explored a cell yet, we don't want to draw anything
             if (!cell.IsExplored)
             {

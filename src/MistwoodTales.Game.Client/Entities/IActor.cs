@@ -14,7 +14,7 @@ namespace MistwoodTales.Game.Client.Entities
         int Health { get; set; }
         int MaxHealth { get; set; }
         string Name { get; set; }
-        int Speed { get; set; }
+        float Speed { get; set; }
 
         ICollection<IBehavior> Behaviors { get; }
     }

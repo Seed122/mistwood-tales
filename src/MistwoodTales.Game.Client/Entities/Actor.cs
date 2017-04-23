@@ -49,8 +49,8 @@ namespace MistwoodTales.Game.Client.Entities
         public int Gold { get; set; }
         public int Health { get; set; }
         public int MaxHealth { get; set; }
-        public int Speed { get; set; }
-        public int Time => Speed;
+        public float Speed { get; set; }
+        public float Time => Speed;
 
 
         public virtual void PerformAction(CommandSystem commandSystem)

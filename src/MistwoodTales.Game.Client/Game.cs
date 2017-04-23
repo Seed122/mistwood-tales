@@ -62,8 +62,8 @@ namespace MistwoodTales.Game.Client
             Configuration.FramesPerSecond = 20;
             Configuration.InputUpdatesPerSecond = 20;
 
-            Configuration.ScheduleMode = ScheduleMode.Manual;
-            Configuration.ScheduleTimerPeriod = 150;
+            Configuration.ScheduleMode = ScheduleMode.Timer;
+            Configuration.ScheduleTimerPeriod = 50;
             Configuration.RenderingFontFileName = "terminal8x8cyr.png";
         }
 

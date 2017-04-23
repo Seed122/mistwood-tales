@@ -46,6 +46,7 @@ namespace MistwoodTales.Game.Client.Scheduling
                 {
                     DestinationPath = null;
                 }
+                Game.RenderSystem.RedrawNeeded = true;
                 return moveResult;
             }
         }

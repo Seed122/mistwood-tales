@@ -38,8 +38,6 @@ namespace MistwoodTales.Game.Client.Systems
 
         public void Start()
         {
-            // This must be the exact name of the bitmap font file we are using or it will error.
-            // The title will appear at the top of the console window
             CGLSettings s = new CGLSettings
             {
                 StartWindowState = CGLWindowState.Fullscreen,
@@ -55,10 +53,7 @@ namespace MistwoodTales.Game.Client.Systems
             _mapConsole = new CGLConsole(_mapWidth, _mapHeight);
             _messageConsole = new CGLConsole(_messageWidth, _messageHeight);
             _statConsole = new CGLConsole(_statWidth, _statHeight);
-            //_inventoryConsole = new CGLConsole(_inventoryWidth, _inventoryHeight);
-            // Set up a handler for RLNET's Update event
             _rootConsole.Update += OnRootConsoleUpdate;
-            // Set up a handler for RLNET's Render event
             _rootConsole.Render += OnRootConsoleRender;
             try
             {
@@ -118,16 +113,16 @@ namespace MistwoodTales.Game.Client.Systems
         {
             if (!RedrawNeeded)
                 return;
-            //Game.MessageLog.Draw(_messageConsole);
+            Game.MessageLog.Draw(_messageConsole);
             Game.CurrentMap.Draw(_mapConsole, _statConsole);
             Game.Player.Draw(_mapConsole, Game.CurrentMap);
-            //Game.Player.DrawStats(_statConsole);
+            Game.Player.DrawStats(_statConsole);
             _messageConsole.SetBackColor(0, 0, _messageWidth, _messageHeight, Swatch.DbDeepWater);
             _mapConsole.SetBackColor(0, 0, _mapWidth, _mapHeight, Colors.FloorBackground);
             _statConsole.SetBackColor(0, 0, _statWidth, _statHeight, Swatch.DbOldStone);
             CGLConsole.Blit(_mapConsole, 0, 0, _mapWidth, _mapHeight, _rootConsole, 0, 0);
-            //CGLConsole.Blit(_statConsole, 0, 0, _statWidth, _statHeight, _rootConsole, _mapWidth, 0);
-            //CGLConsole.Blit(_messageConsole, 0, 0, _messageWidth, _messageHeight, _rootConsole, 0, _screenHeight - _messageHeight);
+            CGLConsole.Blit(_statConsole, 0, 0, _statWidth, _statHeight, _rootConsole, _mapWidth, 0);
+            CGLConsole.Blit(_messageConsole, 0, 0, _messageWidth, _messageHeight, _rootConsole, 0, _screenHeight - _messageHeight);
             _rootConsole.Draw();
             RedrawNeeded = false;
         }

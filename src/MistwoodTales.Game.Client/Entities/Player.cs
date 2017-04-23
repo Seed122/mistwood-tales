@@ -16,7 +16,7 @@ namespace MistwoodTales.Game.Client.Entities
             Symbol = '@';
             X = 20;
             Y = 20;
-            Speed = 6;
+            Speed = 1.0f;
             Attack = 8;
             AttackChance = 20;
             Defense = 3;

@@ -28,6 +28,7 @@ namespace MistwoodTales.Game.Client.Entities
             // Set the background colors of the health bar to show how damaged the monster is
             statConsole.SetBackColor(3, yPosition, width, 1, Swatch.Primary);
             statConsole.SetBackColor(3 + width, yPosition, remainingWidth, 1, Swatch.PrimaryDarkest);
+            
 
             // Print the monsters name over top of the health bar
             statConsole.Print(2, yPosition, $": {Name}", Swatch.DbLight);

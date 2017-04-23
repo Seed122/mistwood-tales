@@ -34,7 +34,7 @@ namespace RogueSharp.Random
       /// <summary>
       /// Gets the next pseudo-random integer between 0 and the specified maxValue inclusive
       /// </summary>
-      /// <param name="maxValue">Inclusive maximum result</param>
+      /// <param name="maxValue">Exclusive maximum result</param>
       /// <returns>Returns a pseudo-random integer between 0 and the specified maxValue inclusive</returns>
       public int Next( int maxValue )
       {
@@ -45,13 +45,13 @@ namespace RogueSharp.Random
       /// Gets the next pseudo-random integer between the specified minValue and maxValue inclusive
       /// </summary>
       /// <param name="minValue">Inclusive minimum result</param>
-      /// <param name="maxValue">Inclusive maximum result</param>
-      /// <returns>Returns a pseudo-random integer between the specified minValue and maxValue inclusive</returns>
+      /// <param name="maxValue">Exclusive maximum result</param>
+      /// <returns>Returns a pseudo-random integer between the specified minValue inclusive and maxValue exclusive</returns>
       /// <exception cref="ArgumentOutOfRangeException">Thrown if maxValue equals Int32.MaxValue</exception>
       public int Next( int minValue, int maxValue )
       {
          _numberGenerated++;
-         return _random.Next( minValue, maxValue + 1 );
+         return _random.Next( minValue, maxValue);
       }
 
       /// <summary>
